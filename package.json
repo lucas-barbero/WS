@@ -1,0 +1,27 @@
+{
+  "name": "ws",
+  "version": "1.0.0",
+  "description": "WS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucas-barbero/WS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucas-barbero/WS/issues"
+  },
+  "homepage": "https://github.com/lucas-barbero/WS#readme",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "mdbootstrap": "^4.10.0",
+    "mjquery": "^1.3.1",
+    "popper.js": "^1.16.0",
+    "sparqljs": "^3.0.1"
+  }
+}
