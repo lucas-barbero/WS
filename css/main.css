@@ -263,3 +263,20 @@ textarea {
   }
 }
 
+/*
+  * user define
+  */
+
+.container-artiste{
+  max-width: 20vw;
+}
+.container-instruments{
+  max-width: 25vw;
+}
+.elements{
+  margin: 2vw;
+}
+
+
+
+
