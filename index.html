@@ -11,6 +11,13 @@
   <link rel="apple-touch-icon" href="icon.png">
   <!-- Place favicon.ico in the root directory -->
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="node_modules/mdbootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="node_modules/mdbootstrap/css/mdb.min.css" rel="stylesheet">
+
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
 
@@ -23,36 +30,46 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <p>Ceci est un site trop hyper mega stylé sur le jAzZ HmMmMmMmMmmmmmmMMMMMmmMmMmMMMMmMMMMmmmmMM JazZzZzZzZ</p>
-  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
-  <script src="node_modules/jquery/src/jquery.js" ></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
-  <h1>Homepage of Quentin Ferro</h1>
-  <span property="foaf:title">Etudiant</span> <span property="foaf:givenName">Quentin</span>  <span property="foaf:familyName">Ferro</span><br>
-  Institut National des Sciences Appliquées de Lyon<br>
-  Département Informatique<br>
-  4ème Année<br>
-  <span property="foaf:mbox">quentin.ferro@insa-lyon.fr</span><br>
-  <br>
-  <img property="foaf:depiction" src="https://images-na.ssl-images-amazon.com/images/I/714QyyJGmgL._SY445_.jpg" width="150"> <br>
-  <b>This page is an extended CV under construction, you can have complementary information here:</b>
-  <ul>
-    <li>Linkedin: <a href="https://www.linkedin.com/in/mehdikaytoue">https://www.linkedin.com/in/mehdikaytoue</a></li>
-  </ul>
-  <h1>Welcome!</h1>
-  <p><em>I am a student of computer science at the INSA de Lyon.</em>
-  </p>
-  <h1>Experience</h1>
-  <ul>
-    <li>2016 : Bac S-SVT spécialité Mathématiques - Mention Très Bien</li>
-    <li>2016 - 2018 : Institut National des Sciences Appliquées, INSA Lyon, France</li>
-    <li>2018-2020: Département Informatique - Institut National des Sciences Appliquées, INSA Lyon, France (supervised by J.-M. Petit)</li>
-  </ul>
-  <h1>Projects</h1>
-  <h2>My projects, professional or personnal</h2>
-  <ul>
-  </ul>
+  <nav class="navbar navbar-light bg-light static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Jazz Suite</a>
+    </div>
+  </nav>
+
+
+  <header class="masthead text-white text-center">
+
+    <div class="container">
+      <div class="bg">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5"> Jazz Suite : The World Finest Jazz Reference </h1>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <input type="search" class="form-control form-control-lg" placeholder="Search">
+            </div>
+            <div class="col-sm">
+              <button class="btn btn-primary dropdown-toggle mr-4" type="button" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">Select Filter</button>
+
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Artists</a>
+                <a class="dropdown-item" href="#">Albums</a>
+                <a class="dropdown-item" href="#">Title</a>
+                <a class="dropdown-item" href="#">Genre</a>
+              </div>
+            </div>
+            <div class="col-sm">
+              <button class="btn blue-gradient">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
 </body>
 
 </html>
