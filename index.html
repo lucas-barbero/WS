@@ -11,6 +11,13 @@
   <link rel="apple-touch-icon" href="icon.png">
   <!-- Place favicon.ico in the root directory -->
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="node_modules/mdbootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="node_modules/mdbootstrap/css/mdb.min.css" rel="stylesheet">
+
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
 
@@ -23,19 +30,46 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
+  <nav class="navbar navbar-light bg-light static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Jazz Suite</a>
+    </div>
+  </nav>
 
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+
+  <header class="masthead text-white text-center">
+
+    <div class="container">
+      <div class="bg">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5"> Jazz Suite : The World Finest Jazz Reference </h1>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <input type="search" class="form-control form-control-lg" placeholder="Search">
+            </div>
+            <div class="col-sm">
+              <button class="btn btn-primary dropdown-toggle mr-4" type="button" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">Select Filter</button>
+
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Artists</a>
+                <a class="dropdown-item" href="#">Albums</a>
+                <a class="dropdown-item" href="#">Title</a>
+                <a class="dropdown-item" href="#">Genre</a>
+              </div>
+            </div>
+            <div class="col-sm">
+              <button class="btn blue-gradient">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
 </body>
 
 </html>
