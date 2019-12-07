@@ -19,26 +19,32 @@
   <link href="node_modules/mdbootstrap/css/mdb.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="scss/test.scss">
 
   <meta name="theme-color" content="#DE89BE">
 </head>
 
 <body>
+  <nav class="navbar navbar-light yellow accent-4">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Jazz Suite</a>
+    </div>
+  </nav>
 
   <!-- Add your site or application content here -->
   <div class="container-fluid">
     <h1 class="text-center text-primary">Nom du sous genre</h1>
-    <h2 class="text-center text-secondary"> Année de naissance</h2>
+    <h2 class="text-center text-secondary">Année de naissance</h2>
   </div>
   <div class="container">
     <div class="row">
-      <h4 class="col-4 ">Origine : </h4>
-      <h4 class="col-4">Dérivés : </h4>
-      <h4 class="col-4">Sous-Genres : </h4>
+      <h4 id ="origine" class="col-4 ">Origine : </h4>
+      <h4 id ="derives" class="col-4">Dérivés : </h4>
+      <h4 id ="sous-genre" class="col-4">Sous-Genres : </h4>
     </div>
   </div>
   <div class="container-fluid">
-    <h2 class="text-center text-primary elements">Abstract</h2>
+    <h2 id ="abstract" class="text-center text-primary elements">Abstract</h2>
       <div class="container-fluid">
         <div class="text-center">
           Une jolie description.
@@ -46,7 +52,7 @@
       </div>
     <h2 class="text-center text-secondary elements">Instruments caractéristiques</h2>
       <div class="container container-instruments"  >
-        <ul class="list-group list-group-flush">
+        <ul id ="instruments" class="list-group list-group-flush">
           <a href="#!" class="list-group-item list-group-item-action">Violon</a>
           <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
         </ul>

@@ -1,0 +1,9 @@
+@import "../node_modules/mdbootstrap/scss/_custom-variables.scss"; /*! HTML5 Boilerplate v7.2.0 | MIT License | https://html5boilerplate.com/ */
+@import "../node_modules/bootstrap/scss/functions.scss";
+@import "../node_modules/bootstrap/scss/variables.scss";
+@import "../node_modules/bootstrap/scss/mixins";
+
+.navbar {
+  color: gray("100");
+  background-color: theme-color("primary");
+}

@@ -1,4 +1,3 @@
-/*! HTML5 Boilerplate v7.2.0 | MIT License | https://html5boilerplate.com/ */
 
 /* main.css 2.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
 /*
@@ -293,6 +292,10 @@ body, html {
   background-size: cover;
 }
 
+.navbar {
+  color: #FFE5D9;
+  background-color: #FFCAD4;
+}
 
 
 
