@@ -54,10 +54,11 @@ var queryAlbums = [
 ].join(" ");
 
 var subGenre = sparqlQuery(querySubGenre).then(function (data) {
-    subGenre = data.results.bindings.map(x => x.name.value
-    );
+    subGenre = data.results.bindings.map(x => {
+      return {name: x.name.value, value: x.query.value}
+    });
     autoCompleteResult = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       local: subGenre
     });
@@ -68,13 +69,17 @@ var subGenre = sparqlQuery(querySubGenre).then(function (data) {
 
 var artists;
 sparqlQuery(queryArtists).then(function (data) {
-    artists = data.results.bindings.map(x => x.name.value);
+    artists = data.results.bindings.map(x => {
+      return {name: x.name.value, value: x.query.value}
+    });
   }
 );
 
 var albums;
 sparqlQuery(queryAlbums).then(function (data) {
-    albums = data.results.bindings.map(x => x.name.value);
+    albums = data.results.bindings.map(x => {
+      return {name: x.name.value, value: x.query.value}
+    });
   }
 );
 
@@ -105,7 +110,7 @@ $(document).ready(function () {
       $(".dropdown-toggle").text($(this).text());
       $(".dropdown-toggle").val($(this).text());
       var toChose;
-      switch($(this).text()){
+      switch ($(this).text()) {
         case "Artist":
           toChose = artists;
           break;
@@ -131,6 +136,7 @@ function initAutoComplete() {
   $('input').typeahead({
 
     source: autoCompleteResult.ttAdapter(),
+
 
     // how many items to display
     items: 5,
@@ -158,7 +164,7 @@ function sparqlQuery(query) {
       dataType: "json",
       url: queryUrl,
       success: function (data) {
-        console.log("success");
+        console.log(data);
         resolve(data);
       },
       error: function (err) {
