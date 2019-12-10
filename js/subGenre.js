@@ -14,27 +14,38 @@ $(document).ready(function () {
 });
 
 function getName(subGenre) {
-  return new Promise(function (resolve, reject) {
-    var query = [
-      "PREFIX dbo: <http://dbpedia.org/ontology/>",
-      "PREFIX dbr: <http://dbpedia.org/resource/>",
-      "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+  var query = [
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-      "select distinct ?name where {",
-      "dbr:"+subGenre+" foaf:name ?name.",
-      "FILTER(langMatches(lang(?name), \"EN\")).\n",
-      "}",
-    ].join(" ");
-    var url = "http://dbpedia.org/sparql";
+    "select distinct ?name where {",
+    "dbr:"+subGenre+" foaf:name ?name.",
+    "FILTER(langMatches(lang(?name), \"EN\")).\n",
+    "}",
+  ].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+      console.log(data);
+      document.getElementById("name").innerHTML = data.results.bindings[0].name.value;
+    }
+  );
+    var data = sparqlQuery(query);
+
+}
+
+function sparqlQuery(query) {
+  return new Promise(function (resolve, reject) {
+
+    let url = "http://dbpedia.org/sparql";
     const queryUrl = url + "?query=" + encodeURIComponent(query) + "&format=json";
+    console.log(queryUrl);
     $.ajax({
       dataType: "json",
       url: queryUrl,
       success: function (data) {
-        //console.log(data);
-        console.log(data.results);
-        console.log(data.results.bindings[0].name.value);
-        showName(data.results.bindings[0].name.value);
+        console.log("success");
+        resolve(data);
       },
       error: function (err) {
         reject(err)
@@ -43,7 +54,3 @@ function getName(subGenre) {
   });
 }
 
-function showName(name){
-  document.getElementById("name").innerHTML = name;
-
-}
