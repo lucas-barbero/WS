@@ -54,12 +54,16 @@ function setDerives(subGenre) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    //console.log(data);
-    document.getElementById("derives").innerHTML = "<ul>";
-    data.results.bindings.forEach(element =>
-      document.getElementById("derives").innerHTML += "<li>"+element.name.value+"</li>"
-    );
-    document.getElementById("derives").innerHTML +="</ul>";
+      //console.log(data);
+      var virgule = false;
+      data.results.bindings.forEach(element => {
+          if (virgule) {
+            document.getElementById("derives").innerHTML += ", ";
+          }
+          virgule = true;
+          document.getElementById("derives").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.genreDerives.value) + "\">" + element.name.value + "</a>"
+        }
+      );
     }
   );
 }
@@ -79,11 +83,15 @@ function setSubGenre(subGenre) {
 
   sparqlQuery(query).then(function (data) {
       //console.log(data);
-      document.getElementById("sub-genre").innerHTML = "<ul>";
-      data.results.bindings.forEach(element =>
-        document.getElementById("sub-genre").innerHTML += "<li>"+element.name.value+"</li>"
+      var virgule = false;
+      data.results.bindings.forEach(element => {
+          if (virgule) {
+            document.getElementById("sub-genre").innerHTML += ", ";
+          }
+          virgule = true;
+          document.getElementById("sub-genre").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.subGenre.value) + "\">" + element.name.value + "</a>"
+        }
       );
-      document.getElementById("sub-genre").innerHTML +="</ul>";
     }
   );
 }
@@ -106,11 +114,15 @@ function setOrigin(subGenre) {
 
   sparqlQuery(query).then(function (data) {
       //console.log(data);
-      document.getElementById("origine").innerHTML = "<ul>";
-      data.results.bindings.forEach(element =>
-        document.getElementById("origine").innerHTML += "<li>"+element.name.value+"</li>"
+      var virgule = false;
+      data.results.bindings.forEach(element => {
+          if (virgule) {
+            document.getElementById("origine").innerHTML += ", ";
+          }
+          virgule = true;
+          document.getElementById("origine").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.origine.value) +"\" \>" + element.name.value + "</a>"
+        }
       );
-      document.getElementById("origine").innerHTML +="</ul>";
     }
   );
 }
@@ -226,6 +238,7 @@ function sparqlQuery(query) {
     });
   });
 }
+
 
 
 function getRessourceLink(uri) {
