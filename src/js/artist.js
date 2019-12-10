@@ -1,34 +1,34 @@
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
-  const subGenre = urlParams.get('search');
-  console.log(subGenre);
+  const artist = urlParams.get('search');
+  console.log(artist);
 
-  if (!subGenre) {
+  if (!artist) {
     window.location.assign("404.html")
   }
 
-  setName(subGenre);
-  setAbstract(subGenre);
-  setOrigin(subGenre);
-  setDate(subGenre);
-  setDerives(subGenre);
-  setSubGenre(subGenre);
-  setInstrument(subGenre);
-  setArtist(subGenre);
+  setName(artist);
+  setAbstract(artist);
+  setOrigin(artist);
+  setDate(artist);
+  setDerives(artist);
+  setartist(artist);
+  setInstrument(artist);
+  setArtist(artist);
 });
 
 
 /* -----------  Set functions  -----------  */
-// the following functions allow the page to set the different informations of the subgenre
+// the following functions allow the page to set the different informations of the artist
 
-function setName(subGenre) {
+function setName(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?name where {",
-    "dbr:" + subGenre + " foaf:name ?name.",
+    "dbr:" + artist + " foaf:name ?name.",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
   ].join(" ");
@@ -40,14 +40,14 @@ function setName(subGenre) {
   );
 }
 
-function setDerives(subGenre) {
+function setDerives(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?name ?genreDerives WHERE{\n",
-    "dbr:"+subGenre+" dbo:derivative ?genreDerives.",
+    "dbr:"+artist+" dbo:derivative ?genreDerives.",
     "?genreDerives foaf:name ?name\n",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
@@ -55,49 +55,40 @@ function setDerives(subGenre) {
 
   sparqlQuery(query).then(function (data) {
       //console.log(data);
-      var virgule = false;
-      data.results.bindings.forEach(element => {
-          if (virgule) {
-            document.getElementById("derives").innerHTML += ", ";
-          }
-          virgule = true;
-          document.getElementById("derives").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.genreDerives.value) + "\">" + element.name.value + "</a>"
-        }
+      document.getElementById("derives").innerHTML = "<ul>";
+      data.results.bindings.forEach(element =>
+        document.getElementById("derives").innerHTML += "<li>"+element.name.value+"</li>"
       );
+      document.getElementById("derives").innerHTML +="</ul>";
     }
   );
 }
 
-function setSubGenre(subGenre) {
+function setartist(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?name ?subGenre WHERE{\n",
-    "dbr:"+subGenre+" dbo:musicSubgenre ?subGenre.",
-    "?subGenre foaf:name ?name\n",
+    "select distinct ?name ?artist WHERE{\n",
+    "dbr:"+artist+" dbo:musicartist ?artist.",
+    "?artist foaf:name ?name\n",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
       //console.log(data);
-      var virgule = false;
-      data.results.bindings.forEach(element => {
-          if (virgule) {
-            document.getElementById("sub-genre").innerHTML += ", ";
-          }
-          virgule = true;
-          document.getElementById("sub-genre").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.subGenre.value) + "\">" + element.name.value + "</a>"
-        }
+      document.getElementById("sub-genre").innerHTML = "<ul>";
+      data.results.bindings.forEach(element =>
+        document.getElementById("sub-genre").innerHTML += "<li>"+element.name.value+"</li>"
       );
+      document.getElementById("sub-genre").innerHTML +="</ul>";
     }
   );
 }
-x
 
-function setOrigin(subGenre) {
+function setOrigin(artist) {
   var query = [
 
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
@@ -105,7 +96,7 @@ function setOrigin(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?origine ?name WHERE{",
-    "  dbr:" + subGenre + " dbo:stylisticOrigin ?origine.",
+    "  dbr:" + artist + " dbo:stylisticOrigin ?origine.",
     "  ?origine foaf:name ?name.",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
@@ -114,21 +105,17 @@ function setOrigin(subGenre) {
 
   sparqlQuery(query).then(function (data) {
       //console.log(data);
-      var virgule = false;
-      data.results.bindings.forEach(element => {
-          if (virgule) {
-            document.getElementById("origine").innerHTML += ", ";
-          }
-          virgule = true;
-          document.getElementById("origine").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.origine.value) +"\" \>" + element.name.value + "</a>"
-        }
+      document.getElementById("origine").innerHTML = "<ul>";
+      data.results.bindings.forEach(element =>
+        document.getElementById("origine").innerHTML += "<li>"+element.name.value+"</li>"
       );
+      document.getElementById("origine").innerHTML +="</ul>";
     }
   );
 }
 
 
-function setDate(subGenre) {
+function setDate(artist) {
   var query = [
 
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
@@ -136,14 +123,14 @@ function setDate(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?date  WHERE{",
-    "  dbr:"+subGenre+" dbp:culturalOrigins ?date.",
+    "  dbr:"+artist+" dbp:culturalOrigins ?date.",
     "}",
 
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    //console.log(data);
-    var date = data.results.bindings[0].date.value;
+      //console.log(data);
+      var date = data.results.bindings[0].date.value;
       date = Math.floor(date);
       if(date < 0){
         date = -date;
@@ -153,14 +140,14 @@ function setDate(subGenre) {
   );
 }
 
-function setAbstract(subGenre) {
+function setAbstract(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?abstract WHERE{",
-    "  dbr:"+subGenre+" dbo:abstract ?abstract	.",
+    "  dbr:"+artist+" dbo:abstract ?abstract	.",
     "  FILTER(langMatches(lang(?abstract), \"EN\")).",
     "}"
   ].join(" ");
@@ -172,14 +159,14 @@ function setAbstract(subGenre) {
   );
 }
 
-function setInstrument(subGenre) {
+function setInstrument(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?name ?link WHERE{\n",
-    "dbr:"+subGenre+" dbo:instrument ?instrument.",
+    "dbr:"+artist+" dbo:instrument ?instrument.",
     "?instrument dbp:name ?name.\n",
     "?instrument foaf:isPrimaryTopicOf ?link.\n",
     "}"
@@ -194,14 +181,14 @@ function setInstrument(subGenre) {
   });
 }
 
-function setArtist(subGenre) {
+function setArtist(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?link ?name where {\n",
-    "?a dbo:genre dbr:"+subGenre+".",
+    "?a dbo:genre dbr:"+artist+".",
     "?a dbo:artist ?link.\n",
     "?link foaf:name ?name\n",
     "}"
@@ -238,7 +225,6 @@ function sparqlQuery(query) {
     });
   });
 }
-
 
 
 function getRessourceLink(uri) {
