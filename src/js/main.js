@@ -54,10 +54,11 @@ var queryAlbums = [
 ].join(" ");
 
 var subGenre = sparqlQuery(querySubGenre).then(function (data) {
-    subGenre = data.results.bindings.map(x => x.name.value
-    );
+    subGenre = data.results.bindings.map(x => {
+      return {name: x.name.value, value: x.query.value}
+    });
     autoCompleteResult = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
       local: subGenre
     });
@@ -68,48 +69,39 @@ var subGenre = sparqlQuery(querySubGenre).then(function (data) {
 
 var artists;
 sparqlQuery(queryArtists).then(function (data) {
-    artists = data.results.bindings.map(x => x.name.value);
+    artists = data.results.bindings.map(x => {
+      return {name: x.name.value, value: x.query.value}
+    });
   }
 );
 
 var albums;
 sparqlQuery(queryAlbums).then(function (data) {
-    albums = data.results.bindings.map(x => x.name.value);
+    albums = data.results.bindings.map(x => {
+      return {name: x.name.value, value: x.query.value}
+    });
   }
 );
 
 
 $(document).ready(function () {
-  const lookup = {"Genre": "MusicGenre", "Artist": "MusicalArtist", "Title": "Song", "Album": "Album"};
 
+  const searchbar = $('input');
   $("#submit").click(function () {
     let searchType = $(".dropdown-toggle").val();
-    let request = $('input').val();
-    if (request) {
-      $.ajax({
-        url: "http://lookup.dbpedia.org/api/search/KeywordSearch",
-        dataType: "json",
-        data: {
-          QueryClass: lookup[searchType],
-          MaxHits: 1,
-          QueryString: request
-        },
-        headers: {
-          Accept: "application/json"
-        },
-        method: "get",
-        success: function (data) {
-          if (data.results.length > 0) {
-            const uri = data.results[0].uri;
-            const search = uri.substring(uri.lastIndexOf("/") + 1);
-            const queryString = "?search=" + encodeURIComponent(search); // TODO parse fin de l'uri
-            window.location.href = searchType.toLowerCase() + ".html" + queryString;
-          } else {
-            alert("aucune ressource trouvée dsl");
-          }
-        }
-      });
+    let request;
+    let search;
+    if (searchbar.typeahead("getActive").name.toLowerCase() == searchbar.val().toLowerCase()) {
+      request = searchbar.typeahead("getActive");
+      const uri = request.value;
+      search = uri.substring(uri.lastIndexOf("/") + 1);
+      const queryString = "?search=" + encodeURIComponent(search);
+      window.location.href = searchType.toLowerCase() + ".html" + queryString;
+    } else {
+      window.location.assign("404.html")
     }
+
+
   });
 
 
@@ -118,7 +110,7 @@ $(document).ready(function () {
       $(".dropdown-toggle").text($(this).text());
       $(".dropdown-toggle").val($(this).text());
       var toChose;
-      switch($(this).text()){
+      switch ($(this).text()) {
         case "Artist":
           toChose = artists;
           break;
@@ -144,6 +136,7 @@ function initAutoComplete() {
   $('input').typeahead({
 
     source: autoCompleteResult.ttAdapter(),
+
 
     // how many items to display
     items: 5,
@@ -171,7 +164,7 @@ function sparqlQuery(query) {
       dataType: "json",
       url: queryUrl,
       success: function (data) {
-        console.log("success");
+        console.log(data);
         resolve(data);
       },
       error: function (err) {
@@ -179,9 +172,5 @@ function sparqlQuery(query) {
       }
     });
   });
-
-}
-
-function searchButton() {
 
 }
