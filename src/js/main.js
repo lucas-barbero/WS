@@ -1,3 +1,84 @@
+var autoCompleteResult;
+
+var querySubGenre = [
+  "PREFIX dbo: <http://dbpedia.org/ontology/>",
+  "PREFIX dbr: <http://dbpedia.org/resource/>",
+  "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+
+  "select distinct ?name ?query where {",
+  "dbr:Jazz dbo:musicSubgenre ?query.",
+  "?query foaf:name ?name.",
+  "}",
+].join(" ");
+
+var queryArtists = [
+  "PREFIX dbo: <http://dbpedia.org/ontology/>",
+  "PREFIX dbr: <http://dbpedia.org/resource/>",
+
+  "select distinct ?name ?query where {",
+  "{",
+  "?query dbo:genre dbr:Jazz.",
+  "}",
+  "UNION",
+  "{",
+  "?query dbo:genre ?sub.",
+  "dbr:Jazz dbo:musicSubgenre ?sub.",
+  "}",
+  "?a dbo:artist ?query.",
+  "?query foaf:name ?name.",
+
+  "}"
+
+
+].join(" ");
+
+var queryAlbums = [
+  "PREFIX dbo: <http://dbpedia.org/ontology/>",
+  "PREFIX dbr: <http://dbpedia.org/resource/>",
+  "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+
+  "select distinct ?query ?name where {",
+  "?query rdf:type dbo:Album.",
+  "?query rdfs:label ?name",
+  "{",
+  "?query dbo:genre ?sub.",
+  "dbr:Jazz dbo:musicSubgenre ?sub.",
+  "}",
+  "UNION",
+  "{",
+  "?query dbo:genre dbr:Jazz.",
+  "}",
+  "FILTER(langMatches(lang(?name), \"EN\")).",
+  "}",
+
+].join(" ");
+
+var subGenre = sparqlQuery(querySubGenre).then(function (data) {
+    subGenre = data.results.bindings.map(x => x.name.value
+    );
+    autoCompleteResult = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      local: subGenre
+    });
+    autoCompleteResult.initialize();
+    initAutoComplete();
+  }
+);
+
+var artists;
+sparqlQuery(queryArtists).then(function (data) {
+    artists = data.results.bindings.map(x => x.name.value);
+  }
+);
+
+var albums;
+sparqlQuery(queryAlbums).then(function (data) {
+    albums = data.results.bindings.map(x => x.name.value);
+  }
+);
+
+
 $(document).ready(function () {
   const lookup = {"Genre": "MusicGenre", "Artist": "MusicalArtist", "Title": "Song", "Album": "Album"};
 
@@ -34,41 +115,35 @@ $(document).ready(function () {
 
   $(function () {
     $(".dropdown-menu a").click(function () {
-      let dropdown = $(".dropdown-toggle");
-      dropdown.text($(this).text());
-      dropdown.val($(this).text());
+      $(".dropdown-toggle").text($(this).text());
+      $(".dropdown-toggle").val($(this).text());
+      var toChose;
+      switch($(this).text()){
+        case "Artist":
+          toChose = artists;
+          break;
+
+        case "Album":
+          toChose = albums;
+          break;
+
+        case "Genre":
+          toChose = subGenre;
+          break;
+      }
+      autoCompleteResult.clear();
+      autoCompleteResult.local = toChose;
+      autoCompleteResult.initialize(true);
     });
 
   });
 
-  let subGenre;
-  let query = [
-    "PREFIX dbo: <http://dbpedia.org/ontology/>",
-    "PREFIX dbr: <http://dbpedia.org/resource/>",
-    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
-
-    "select distinct ?name ?query where {",
-    "dbr:Jazz dbo:musicSubgenre ?query.",
-    "?query foaf:name ?name.",
-    "} LIMIT 100000",
-  ].join(" ");
-
-  sparqlQuery(query).then(function (data) {
-      console.log(data);
-
-      subGenre = data.results.bindings.map(x => {
-        return {name: x.name.value, value: x.query.value};
-      });
-      console.log(subGenre);
-      initAutoComplete(subGenre)
-    }
-  );
 });
 
-function initAutoComplete(data) {
+function initAutoComplete() {
   $('input').typeahead({
 
-    source: data,
+    source: autoCompleteResult.ttAdapter(),
 
     // how many items to display
     items: 5,
