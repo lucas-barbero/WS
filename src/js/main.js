@@ -80,18 +80,23 @@ sparqlQuery(queryAlbums).then(function (data) {
 
 
 $(document).ready(function () {
+
+  const searchbar = $('input');
   $("#submit").click(function () {
     let searchType = $(".dropdown-toggle").val();
-    let request = $('input').typeahead("getActive");
-    console.log(request);
-    if (request) {
+    let request;
+    let search;
+    if (searchbar.typeahead("getActive").name.toLowerCase() == searchbar.val().toLowerCase()) {
+      request = searchbar.typeahead("getActive");
       const uri = request.value;
-      const search = uri.substring(uri.lastIndexOf("/") + 1);
+      search = uri.substring(uri.lastIndexOf("/") + 1);
       const queryString = "?search=" + encodeURIComponent(search);
       window.location.href = searchType.toLowerCase() + ".html" + queryString;
     } else {
-      alert("aucune ressource trouvée dsl");
+      window.location.assign("404.html")
     }
+
+
   });
 
 
