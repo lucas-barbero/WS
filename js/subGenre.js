@@ -7,13 +7,13 @@ $(document).ready(function () {
     // TODO PAGE INVALIDE signaler une erreur et faire un lien pour rediriger vers la page principale
 
   }
-  getName(subGenre);
+  setName(subGenre);
 
 
 
 });
 
-function getName(subGenre) {
+function setName(subGenre) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
@@ -30,8 +30,6 @@ function getName(subGenre) {
       document.getElementById("name").innerHTML = data.results.bindings[0].name.value;
     }
   );
-    var data = sparqlQuery(query);
-
 }
 
 function sparqlQuery(query) {
