@@ -29,18 +29,18 @@
 <script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 
-<script src="lib/autocomplete/js/bootstrap-typeahead.min.js" type="text/javascript"></script>
-<script src="js/testQuery.js" type="text/javascript"></script>
-<script src="js/main.js" type="text/javascript"></script>
-
+<script src="lib/autocomplete/js/bootstrap3-typeahead.js" type="text/javascript"></script>
+<script src="lib/autocomplete/js/bloodhound.js" type="text/javascript"></script>
+<script src="js/main.js" type="module"></script>
 <body>
 
 
-  <div class="bgIndex">
+<div class="bgIndex">
 
-    <!--[if IE]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-    <![endif]-->
+  <!--[if IE]>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a
+    href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
 
     <!-- Add your site or application content here -->
     <nav class="navbar navbar-light yellow accent-4">
@@ -53,44 +53,45 @@
     </nav>
 
 
-    <header class="masthead text-white text-center">
-      <div class="container">
-        <div class="bg">
-          <div class="col-xl-9 mx-auto">
-            <h1 class="mb-5"> Jazz Suite : The World Finest Jazz Reference </h1>
-          </div>
-          <div class="container">
-            <form method="get" action="SubGenre.html">
+  <header class="masthead text-white text-center">
+    <div class="container">
+      <div class="bg">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5"> Jazz Suite : The World Finest Jazz Reference </h1>
+        </div>
+        <div class="container">
+          <form method="get" action="SubGenre.html">
 
             <div class="row">
               <div class="col-7 searchbar">
-                <input id="searchbar" label="search" name="search" type="search" class="form-control form-control-lg" placeholder="Search">
+                <input id="searchbar" name="search" type="search" class="form-control form-control-lg typeahead"
+                       placeholder="Search" autocomplete="off" data-provide="typeahead">
               </div>
               <div class="col-sm">
                 <button class="btn btn-primary dropdown-toggle mr-4" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">Genre</button>
-
+                        aria-haspopup="true" aria-expanded="false">Genre
+                </button>
                 <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Artists</a>   <!-- TODO faire une classe css pour les dropdown item pour gérer le hover -->
+                  <a class="dropdown-item" href="#">Artists</a>
+                  <!-- TODO faire une classe css pour les dropdown item pour gérer le hover -->
                   <a class="dropdown-item" href="#">Albums</a>
                   <a class="dropdown-item" href="#">Title</a>
                   <a class="dropdown-item" href="#">Genre</a>
                 </div>
-
-                </div>
-                <div class="col-sm">
-                  <button class="btn blue-gradient" >Search</button>
-                </div>
               </div>
-            </form>
-          </div>
+              <div class="col-sm">
+                <button class="btn blue-gradient">Search</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-  </div>
+</div>
 
-  <p class="py-5 text-center"> A website created by the H411 gang </p>
+<p class="py-5 text-center"> A website created by the H411 gang </p>
 
 </body>
 
