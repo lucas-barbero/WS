@@ -40,6 +40,34 @@ function setName(artist) {
   );
 }
 
+function setBirthPlace(artist) {
+  var query = [
+
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+
+    "select distinct ?origine ?name WHERE{",
+    "  dbr:" + artist + " dbo:birthPlace ?birthPlace.",
+    "  ?birthPlace foaf:name ?name.",
+    "FILTER(langMatches(lang(?name), \"EN\")).\n",
+    "}",
+
+  ].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+      //console.log(data);
+      document.getElementById("birthPlace").innerHTML = "<ul>";
+      data.results.bindings.forEach(element =>
+        document.getElementById("birthPlace").innerHTML += "<li>"+element.name.value+"</li>"
+      );
+      document.getElementById("birthPlace").innerHTML +="</ul>";
+    }
+  );
+
+
+}
+
 function setDerives(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
@@ -64,14 +92,14 @@ function setDerives(artist) {
   );
 }
 
-function setartist(artist) {
+function setAlbums(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?name ?artist WHERE{\n",
-    "dbr:"+artist+" dbo:musicartist ?artist.",
+    "dbr:"+artist+" dbo:artist of ?album.",
     "?artist foaf:name ?name\n",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
@@ -87,33 +115,6 @@ function setartist(artist) {
     }
   );
 }
-
-function setOrigin(artist) {
-  var query = [
-
-    "PREFIX dbo: <http://dbpedia.org/ontology/>",
-    "PREFIX dbr: <http://dbpedia.org/resource/>",
-    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
-
-    "select distinct ?origine ?name WHERE{",
-    "  dbr:" + artist + " dbo:stylisticOrigin ?origine.",
-    "  ?origine foaf:name ?name.",
-    "FILTER(langMatches(lang(?name), \"EN\")).\n",
-    "}",
-
-  ].join(" ");
-
-  sparqlQuery(query).then(function (data) {
-      //console.log(data);
-      document.getElementById("origine").innerHTML = "<ul>";
-      data.results.bindings.forEach(element =>
-        document.getElementById("origine").innerHTML += "<li>"+element.name.value+"</li>"
-      );
-      document.getElementById("origine").innerHTML +="</ul>";
-    }
-  );
-}
-
 
 function setDate(artist) {
   var query = [
