@@ -80,35 +80,17 @@ sparqlQuery(queryAlbums).then(function (data) {
 
 
 $(document).ready(function () {
-  const lookup = {"Genre": "MusicGenre", "Artist": "MusicalArtist", "Title": "Song", "Album": "Album"};
-
   $("#submit").click(function () {
     let searchType = $(".dropdown-toggle").val();
-    let request = $('input').val();
+    let request = $('input').typeahead("getActive");
+    console.log(request);
     if (request) {
-      $.ajax({
-        url: "http://lookup.dbpedia.org/api/search/KeywordSearch",
-        dataType: "json",
-        data: {
-          QueryClass: lookup[searchType],
-          MaxHits: 1,
-          QueryString: request
-        },
-        headers: {
-          Accept: "application/json"
-        },
-        method: "get",
-        success: function (data) {
-          if (data.results.length > 0) {
-            const uri = data.results[0].uri;
-            const search = uri.substring(uri.lastIndexOf("/") + 1);
-            const queryString = "?search=" + encodeURIComponent(search); // TODO parse fin de l'uri
-            window.location.href = searchType.toLowerCase() + ".html" + queryString;
-          } else {
-            alert("aucune ressource trouvée dsl");
-          }
-        }
-      });
+      const uri = request.value;
+      const search = uri.substring(uri.lastIndexOf("/") + 1);
+      const queryString = "?search=" + encodeURIComponent(search);
+      window.location.href = searchType.toLowerCase() + ".html" + queryString;
+    } else {
+      alert("aucune ressource trouvée dsl");
     }
   });
 
@@ -179,9 +161,5 @@ function sparqlQuery(query) {
       }
     });
   });
-
-}
-
-function searchButton() {
 
 }
