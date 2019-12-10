@@ -4,11 +4,10 @@ $(document).ready(function () {
   console.log(subGenre);
 
   if(!subGenre){
-    // TODO PAGE INVALIDE signaler une erreur et faire un lien pour rediriger vers la page principale
-
+    window.location.assign("404.html")
   }
   setName(subGenre);
-
+  setOrigine(subGenre);
 
 
 });
@@ -28,6 +27,31 @@ function setName(subGenre) {
   sparqlQuery(query).then(function (data) {
       console.log(data);
       document.getElementById("name").innerHTML = data.results.bindings[0].name.value;
+    }
+  );
+}
+
+function setOrigine(subGenre) {
+  var query = [
+
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+
+    "select distinct ?origine ?name WHERE{",
+    "  dbr:"+subGenre+" dbo:stylisticOrigin ?origine.",
+    "  ?origine foaf:name ?name.",
+    "FILTER(langMatches(lang(?name), \"EN\")).\n",
+    "}",
+
+  ].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+      console.log(data);
+      data.results.bindings.forEach(element =>
+        document.getElementById("origine").append(element.name.value)
+      );
+
     }
   );
 }
