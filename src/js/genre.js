@@ -3,7 +3,7 @@ $(document).ready(function () {
   const subGenre = urlParams.get('search');
   console.log(subGenre);
 
-  if(!subGenre){
+  if (!subGenre) {
     window.location.assign("404.html")
   }
   setName(subGenre);
@@ -19,7 +19,7 @@ function setName(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?name where {",
-    "dbr:"+subGenre+" foaf:name ?name.",
+    "dbr:" + subGenre + " foaf:name ?name.",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
   ].join(" ");
@@ -39,7 +39,7 @@ function setOrigine(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?origine ?name WHERE{",
-    "  dbr:"+subGenre+" dbo:stylisticOrigin ?origine.",
+    "  dbr:" + subGenre + " dbo:stylisticOrigin ?origine.",
     "  ?origine foaf:name ?name.",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
