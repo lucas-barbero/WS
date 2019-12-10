@@ -1,15 +1,48 @@
 $(document).ready(function () {
+  const lookup = {"Genre": "MusicGenre", "Artist": "MusicalArtist", "Title": "Song", "Album": "Album"};
+
+  $("#submit").click(function () {
+    let searchType = $(".dropdown-toggle").val();
+    let request = $('input').val();
+    if (request) {
+      $.ajax({
+        url: "http://lookup.dbpedia.org/api/search/KeywordSearch",
+        dataType: "json",
+        data: {
+          QueryClass: lookup[searchType],
+          MaxHits: 1,
+          QueryString: request
+        },
+        headers: {
+          Accept: "application/json"
+        },
+        method: "get",
+        success: function (data) {
+          if (data.results.length > 0) {
+            const uri = data.results[0].uri;
+            const search = uri.substring(uri.lastIndexOf("/") + 1);
+            const queryString = "?search=" + encodeURIComponent(search); // TODO parse fin de l'uri
+            window.location.href = searchType.toLowerCase() + ".html" + queryString;
+          } else {
+            alert("aucune ressource trouvée dsl");
+          }
+        }
+      });
+    }
+  });
+
+
   $(function () {
     $(".dropdown-menu a").click(function () {
-      console.log('oooo')
-      $(".dropdown-toggle").text($(this).text());
-      $(".dropdown-toggle").val($(this).text());
+      let dropdown = $(".dropdown-toggle");
+      dropdown.text($(this).text());
+      dropdown.val($(this).text());
     });
 
   });
 
   let subGenre;
-  var query = [
+  let query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
@@ -36,7 +69,7 @@ function initAutoComplete(data) {
   $('input').typeahead({
 
     source: data,
-    
+
     // how many items to display
     items: 5,
 
@@ -71,4 +104,9 @@ function sparqlQuery(query) {
       }
     });
   });
+
+}
+
+function searchButton() {
+
 }
