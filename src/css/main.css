@@ -306,6 +306,15 @@ textarea {
   margin: 2vw;
 }
 
+#navbar-title {
+  text-decoration: none !important;
+}
+
+#icon {
+  width: 30px;
+}
+
+
 body, html {
   height: 100%;
 }
