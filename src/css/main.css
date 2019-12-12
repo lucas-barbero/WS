@@ -402,15 +402,41 @@ body, html {
 
 a {
   color: black;
-  text-decoration: underline;
+}
+
+a:hover {
+  color: gold;
 }
 
 
 /* Subgenre */
 
 #whole-body {
+  margin-top: 2vw;
+  margin-bottom: 1vw;
+  padding-bottom: 1vw;
   background-color: #ECECEC;
-   width: 90%;
+   width: 80%;
+}
+
+#abstract-title {
+  margin-top : 1vw;
+}
+
+#abstract-container {
+  padding-top: 0.2vw;
+}
+
+.container-listes {
+ margin: 0;
+}
+
+#bottom-container {
+  margin-bottom: 1vw;
+}
+
+.container-sym {
+  width: 20vw;
 }
 
 
