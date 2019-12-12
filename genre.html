@@ -28,7 +28,7 @@
 <body>
   <nav class="navbar navbar-light yellow accent-4">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
+      <a id="navbar-title" class="navbar-brand" href="index.html">
         <img src="img/jazz_icon.png" class = class="img-thumbnail" style="width: 30px" alt="jazz icon">
         Jazz Suite
       </a>
@@ -37,27 +37,31 @@
 
   <!-- Add your site or application content here -->
   <div class="container-fluid">
-    <h1 id="name" class="text-center text-primary elements"></h1>
-    <h2 id="date" class="text-center text-secondary elements"></h2>
+    <h1 id="name" class="text-center black-text elements"></h1>
+    <h2 id="date" class="text-center yellow-text elements"></h2>
   </div>
-  <div class="container ">
+
+
+  <div id="informations-container" class="container">
     <div class="row">
       <div class="col-4 text-center">
-        <h3 class="text-center text-primary">Origin: </h3>
+        <h3 class="text-center black-text">Origin: </h3>
         <div id="origine"> </div>
       </div>
       <div  class="col-4 text-center">
-        <h3 class="text-center text-primary">Derivatives: </h3>
+        <h3 class="text-center black-text">Derivatives: </h3>
         <div id ="derives"></div>
       </div>
       <div  class="col-4 text-center">
-        <h3 class="text-center text-primary">Sub-Genres: </h3>
+        <h3 class="text-center black-text">Sub-Genres: </h3>
         <div id ="sub-genre"> </div>
       </div>
     </div>
   </div>
-  <div class="container-fluid">
-    <h2 class="text-center text-primary elements">Abstract</h2>
+
+  <div id="whole-body" class="container">
+  <div id="abstact-container" class="container-fluid">
+    <h2 class="text-center black-text elements">Abstract</h2>
       <div class="container-fluid">
         <div id="abstract" class="text-center">
         </div>
@@ -68,20 +72,21 @@
     <div class="row container-listes">
 
         <div class="container container-instruments"  >
-          <h2 class="text-center text-secondary elements">Specifics Instruments</h2>
+          <h2 class="text-center yellow-text elements">Specifics Instruments</h2>
           <ul id ="instruments" class="list-group list-group-flush list-instruments scrollbar-light-blue">
           </ul>
         </div>
 
       <div class="container container-artiste"  >
-        <h2 class="text-center text-secondary elements">Notable Artists</h2>
+        <h2 class="text-center yellow-text elements">Notable Artists</h2>
         <ul id ="artists" class="list-group list-group-flush list-artiste scrollbar-light-blue">
         </ul>
 
       </div>
     </div>
-
   </div>
+  </div>
+
 
 
 
