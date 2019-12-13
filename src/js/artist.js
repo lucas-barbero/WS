@@ -11,6 +11,7 @@ $(document).ready(function () {
   setDescription(artist);
   setDateNaissance(artist);
   setInstrument(artist);
+  setAssociateArtist(artist);
 });
 
 
@@ -120,6 +121,31 @@ function setInstrument(artist) {
       document.getElementById("instruments").innerHTML += str;
     }
   });
+}
+
+function setAssociateArtist(artist) {
+  var query = [
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+
+    "select distinct ?query ?name where {",
+    "dbr:" + artist + " dbo:associatedMusicalArtist ?query.",
+    "?query rdfs:label ?name.",
+    "FILTER(langMatches(lang(?name),\"en\")).",
+    "}"
+  ].join(" ");
+
+  console.log(query);
+
+
+  sparqlQuery(query).then(function (data) {
+    console.log(data)
+    for (var i = 0; i < data.results.bindings.length; i++) {
+      var str = "<li> <a href=\artist.html?search=" + getRessourceLink(data.results.bindings[i].query.value) + " class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+      document.getElementById("artistes").innerHTML += str;
+    }
+  });
+
 }
 
 
