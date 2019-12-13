@@ -1,7 +1,7 @@
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
   const subGenre = urlParams.get('search');
-  console.log(subGenre);
+  //console.log(subGenre);
 
   if (!subGenre) {
     window.location.assign("404.html")
@@ -90,25 +90,31 @@ function setDerives(subGenre) {
 
   sparqlQuery(query).then(function (data) {
       var virgule = false;
-      data.results.bindings.forEach(element => {
+      if(data.results.bindings.length==0){
+        console.log("pas de derives")
+        //document.getElementById("sub-genre-div").innerHTML = "";
+        document.getElementById("derives-div").remove();
+
+      }else {
+        data.results.bindings.forEach(element => {
 
 
-        // get the resource in the uri
-        let resource = getResourceFromLink(element.genreDerives.value);
-        verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
-          if (virgule) {
-            document.getElementById("derives").innerHTML += ", ";
+            // get the resource in the uri
+            let resource = getResourceFromLink(element.genreDerives.value);
+            verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
+              if (virgule) {
+                document.getElementById("derives").innerHTML += ", ";
+              }
+              virgule = true;
+              if (isJazzSubgenre) {
+                document.getElementById("derives").innerHTML += "<a href=\"genre.html?search=" + getResourceFromLink(element.genreDerives.value) + "\">" + element.name.value + "</a>"
+              } else {
+                document.getElementById("derives").innerHTML += "<a href=\"" + element.wikiLink.value + "\">" + element.name.value + "</a>"
+              }
+            });
           }
-          virgule = true;
-          if (isJazzSubgenre) {
-            document.getElementById("derives").innerHTML += "<a href=\"genre.html?search="+ getResourceFromLink(element.genreDerives.value) + "\">" + element.name.value + "</a>"
-            console.log("Genrededan");
-          }else{
-            document.getElementById("derives").innerHTML += "<a href=\""+ element.wikiLink.value+"\">" + element.name.value + "</a>"
-          }
-        });
-        }
-      );
+        );
+      }
     }
   );
 }
@@ -130,25 +136,32 @@ function setSubGenre(subGenre) {
 
   sparqlQuery(query).then(function (data) {
       var virgule = false;
-      data.results.bindings.forEach(element => {
+      console.log(data)
+      if(data.results.bindings.length==0){
+        console.log("pas de subgenre")
+        //document.getElementById("sub-genre-div").innerHTML = "";
+        document.getElementById("sub-genre-div").remove();
+
+      }else {
+        data.results.bindings.forEach(element => {
 
 
-          // get the resource in the uri
-          let resource = getResourceFromLink(element.subGenre.value);
-          verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
-            if (virgule) {
-              document.getElementById("sub-genre").innerHTML += ", ";
-            }
-            virgule = true;
-            if (isJazzSubgenre) {
-              document.getElementById("sub-genre").innerHTML += "<a href=\"genre.html?search="+ getResourceFromLink(element.subGenre.value) + "\">" + element.name.value + "</a>"
-              console.log("Genrededan");
-            }else{
-              document.getElementById("sub-genre").innerHTML += "<a href=\""+ element.wikiLink.value+"\">" + element.name.value + "</a>"
-            }
-          });
-        }
-      );
+            // get the resource in the uri
+            let resource = getResourceFromLink(element.subGenre.value);
+            verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
+              if (virgule) {
+                document.getElementById("sub-genre").innerHTML += ", ";
+              }
+              virgule = true;
+              if (isJazzSubgenre) {
+                document.getElementById("sub-genre").innerHTML += "<a href=\"genre.html?search=" + getResourceFromLink(element.subGenre.value) + "\">" + element.name.value + "</a>"
+              } else {
+                document.getElementById("sub-genre").innerHTML += "<a href=\"" + element.wikiLink.value + "\">" + element.name.value + "</a>"
+              }
+            });
+          }
+        );
+      }
     }
   );
 
@@ -173,25 +186,31 @@ function setOrigin(subGenre) {
 
   sparqlQuery(query).then(function (data) {
       var virgule = false;
-      data.results.bindings.forEach(element => {
+      if(data.results.bindings.length==0){
+        console.log("pas d'origine")
+        //document.getElementById("sub-genre-div").innerHTML = "";
+        document.getElementById("origine-div").remove();
+
+      }else {
+        data.results.bindings.forEach(element => {
 
 
-          // get the resource in the uri
-          let resource = getResourceFromLink(element.origine.value);
-          verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
-            if (virgule) {
-              document.getElementById("origine").innerHTML += ", ";
-            }
-            virgule = true;
-            if (isJazzSubgenre) {
-              document.getElementById("origine").innerHTML += "<a href=\"genre.html?search="+ getResourceFromLink(element.origine.value) + "\">" + element.name.value + "</a>"
-              console.log("Genrededan");
-            }else{
-              document.getElementById("origine").innerHTML += "<a href=\""+ element.wikiLink.value+"\">" + element.name.value + "</a>"
-            }
-          });
-        }
-      );
+            // get the resource in the uri
+            let resource = getResourceFromLink(element.origine.value);
+            verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
+              if (virgule) {
+                document.getElementById("origine").innerHTML += ", ";
+              }
+              virgule = true;
+              if (isJazzSubgenre) {
+                document.getElementById("origine").innerHTML += "<a href=\"genre.html?search=" + getResourceFromLink(element.origine.value) + "\">" + element.name.value + "</a>"
+              } else {
+                document.getElementById("origine").innerHTML += "<a href=\"" + element.wikiLink.value + "\">" + element.name.value + "</a>"
+              }
+            });
+          }
+        );
+      }
     }
   );
 
@@ -257,9 +276,16 @@ function setInstrument(subGenre) {
 
   sparqlQuery(query).then(function (data) {
     //console.log(data);
-    for (var i = 0; i < data.results.bindings.length ; i++) {
-      var str = "<li> <a href=\""+ data.results.bindings[i].link.value +"\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
-      document.getElementById("instruments").innerHTML +=str;
+    if(data.results.bindings.length==0){
+      console.log("pas d'instruments")
+      //document.getElementById("sub-genre-div").innerHTML = "";
+      document.getElementById("instruments-div").remove();
+
+    }else {
+      for (var i = 0; i < data.results.bindings.length; i++) {
+        var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+        document.getElementById("instruments").innerHTML += str;
+      }
     }
   });
 }
@@ -279,9 +305,16 @@ function setArtist(subGenre) {
 
   sparqlQuery(query).then(function (data) {
     //console.log(data);
-    for (var i = 0; i < data.results.bindings.length ; i++) {
-      var str = "<li> <a href=\"artist.html?search="+ getResourceFromLink(data.results.bindings[i].link.value) +"\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
-      document.getElementById("artists").innerHTML +=str;
+    if(data.results.bindings.length==0){
+      console.log("pas d'artistes'")
+      //document.getElementById("sub-genre-div").innerHTML = "";
+      document.getElementById("artistes-div").remove();
+
+    }else {
+      for (var i = 0; i < data.results.bindings.length; i++) {
+        var str = "<li> <a href=\"artist.html?search=" + getResourceFromLink(data.results.bindings[i].link.value) + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+        document.getElementById("artists").innerHTML += str;
+      }
     }
   });
 }
