@@ -302,9 +302,6 @@ textarea {
 .container-instruments{
   max-width: 25vw;
 }
-.elements{
-  margin: 2vw;
-}
 
 #navbar-title {
   text-decoration: none !important;
@@ -408,15 +405,18 @@ a:hover {
   color: gold;
 }
 
+.elements {
+  margin: 1vw;
+}
 
 /* Subgenre */
 
 #whole-body {
   margin-top: 2vw;
-  margin-bottom: 1vw;
+  margin-bottom: 3vw;
   padding-bottom: 1vw;
   background-color: #ECECEC;
-   width: 80%;
+  width: 80%;
 }
 
 #abstract-title {
@@ -439,5 +439,35 @@ a:hover {
   width: 100%;
 }
 
-
 /* End of Subgenre */
+
+/* Artist */
+
+.head-artist{
+  padding-bottom: 1vw;
+  background-color: #ECECEC;
+  width: 80%;
+}
+
+.title-artist{
+
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+}
+
+.picture-artist {
+  width: 20vw;
+  height: 20vw;
+  margin-left: 6vw;
+}
+
+.brief{
+  margin-top: 5%;
+}
+
+.brief-block{
+  margin-top: 7%;
+}
+
+
+/* End of Artist */

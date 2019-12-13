@@ -19,7 +19,7 @@
   <!-- Material Design Bootstrap -->
   <link href="node_modules/mdbootstrap/css/mdb.min.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="src/css/main.css">
 
   <meta name="theme-color" content="#DE89BE">
 </head>
@@ -28,103 +28,154 @@
 <nav class="navbar navbar-light yellow accent-4">
   <div class="container">
     <a id="navbar-title" class="navbar-brand" href="index.html">
-      <img src="jazz.png" class = class="img-thumbnail" style="width: 30px" >
+      <img src="img/jazz_icon.png" class = class="img-thumbnail" style="width: 30px" alt="jazz icon">
       Jazz Suite
     </a>
   </div>
 </nav>
 
-<!-- Add your site or application content here -->
 
 
-<div class="container-fluid">
+<div class="container-fluid head-artist rounded-lg z-depth-1-half">
+  <h1 class="black-text display-4 title-artist text-center">Herbie Hancock</h1>
   <div class="row justify-content-center">
-    <div class="col-4 justify-content-lg-center ml-5 mr-auto mt-auto mb-auto">
-      <img id="photo" class="col-lg-12" alt="">
+    <div class="col-lg-6 text-center">
+      <img class="picture-artist" src="img/JUL.jpg"  alt="artist picture">
     </div>
     <div class="col-6 justify-content-center">
-      <div class="row justify-content-left mb-lg-0">
-        <h1 id="name" class="text-center text-primary elements"></h1>
-      </div>
-      <div class="row justify-content-left mb-lg-0">
-        <h5 id="bornDate" class="text-center text-primary elements"></h5>
-        <h5 id="bornPlace" class="text-center text-primary elements"></h5>
-      </div>
-      <div class="row justify-content-left mb-lg-0">
-        <h5 id="description" class="text-center text-primary elements"></h5>
-      </div>
-      <div class="row justify-content-left mb-lg-0">
-        <h5 id="occupation" class="text-center text-primary elements"></h5>
-      </div>
+       <div class="brief-block align-middle">
+        <div class="personal-info-artist row brief">
+          <h4 class="text-black-50  elements">Born April 12, 1940 in Chicago (Illinois) UnitedStates </h4>
+        </div>
+        <div class="specification-artist row brief">
+          <h4 class="text-black-50  elements">American pianist, keyboardist, bandleader and composer</h4>
+        </div>
+        <div class="author-of-artist row brief">
+          <h4 class="text-black-50 elements"> Auteur de  : 1 + 1 (album)</h4>
+        </div>
+       </div>
     </div>
   </div>
 </div>
 
-<div class="container ">
-  <div class="row">
-    <h2 class="text-center text-secondary elements">Abstract</h2>
-    <div id="abstract" class="text-center">
-    </div>
-</div>
+<div id="whole-body" class="container rounded-lg z-depth-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <h2 class="text-center text-black elements">Abstract</h2>
+          <div id="abstract" class="text-center">
+          </div>
+        </div>
 
-<div class="container-fluid">
+        <div class="container-fluid">
 
-  <div class="row mb-5">
+          <div class="row mb-5">
 
-    <div class="col">
-      <div class="container container-titles">
-        <h2 class="text-center text-secondary elements">Titles</h2>
-        <ul id ="titles" class="list-group list-group-flush list-titles scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
-        </ul>
-      </div>
-    </div>
+            <div class="col">
+              <div class="container container-titles">
+                <h2 class="text-center black-text elements">Titles</h2>
+                <ul id ="titles" class="list-group list-group-flush list-titles scrollbar-light-blue">
+                  <a href="#!" class="list-group-item list-group-item-action">Violon</a>
+                  <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
+                </ul>
+              </div>
+            </div>
 
-    <div class="col">
-      <div class="container container-albums"  >
-        <h2 class="text-center text-secondary elements">Albums</h2>
-        <ul id ="albums" class="list-group list-group-flush list-instruments scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
-        </ul>
-      </div>
-    </div>
+            <div class="col">
+              <div class="container container-albums"  >
+                <h2 class="text-center black-text elements">Albums</h2>
+                <ul id ="albums" class="list-group list-group-flush list-instruments scrollbar-light-blue">
+                  <a href="#!" class="list-group-item list-group-item-action">Violon</a>
+                  <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
+                </ul>
+              </div>
+            </div>
 
+          </div>
+
+          <div class="row mb-5">
+            <div class="col">
+              <div class="container container-instruments"  >
+                <h2 class="text-center black-text elements">Instruments</h2>
+                <ul id ="instruments" class="list-group list-group-flush list-instruments scrollbar-light-blue">
+                  <a href="#!" class="list-group-item list-group-item-action">Violon</a>
+                  <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="container container-artistes"  >
+                <h2 class="text-center black-text elements">Artists Associates</h2>
+                <ul id ="artistes associate" class="list-group list-group-flush list-artiste scrollbar-light-blue">
+                  <a href="#!" class="list-group-item list-group-item-action">Jean-Mich Violon</a>
+                  <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
+                  <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
+
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
   </div>
-
-  <div class="row mb-5">
-
-    <div class="col">
-      <div class="container container-instruments"  >
-        <h2 class="text-center text-secondary elements">Instruments</h2>
-        <ul id ="instruments" class="list-group list-group-flush list-instruments scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
-        </ul>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="container container-artistes"  >
-        <h2 class="text-center text-secondary elements">Artists Associates</h2>
-        <ul id ="artistes associate" class="list-group list-group-flush list-artiste scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Jean-Mich Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-
 </div>
 
-</div>
+  <!-- Footer -->
+  <footer class="page-footer font-small yellow accent-4">
+
+    <!-- Footer Elements -->
+    <div class="container">
+
+      <!-- Grid row-->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-12">
+          <div class="mb-5 flex-center">
+
+            <!-- Facebook -->
+            <a class="fb-ic" href="https://fr-fr.facebook.com/pg/gerbouladepostage/posts/">
+              <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!-- Twitter -->
+            <a class="tw-ic">
+              <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!-- Google +-->
+            <a class="gplus-ic">
+              <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Linkedin -->
+            <a class="li-ic">
+              <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Instagram-->
+            <a class="ins-ic" href="https://www.instagram.com/hescalope/">
+              <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+            </a>
+            <!--Pinterest-->
+            <a class="pin-ic" >
+              <i class="fab fa-pinterest fa-lg white-text fa-2x"> </i>
+            </a>
+          </div>
+        </div>
+        <!-- Grid column -->
+
+      </div>
+      <!-- Grid row-->
+
+    </div>
+    <!-- Footer Elements -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+      <a href="https://mdbootstrap.com/education/bootstrap/"> H4111 Gang @ INSA</a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->
+
 
 </body>
 <script src="js/vendor/modernizr-3.7.1.min.js"></script>
