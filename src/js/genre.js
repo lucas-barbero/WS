@@ -7,6 +7,8 @@ $(document).ready(function () {
     window.location.assign("404.html")
   }
 
+  //todo verif page | charger sous genre du jazz
+
   setName(subGenre);
   setAbstract(subGenre);
   setOrigin(subGenre);
