@@ -12,6 +12,8 @@ $(document).ready(function () {
   setDateNaissance(artist);
   setInstrument(artist);
   setAssociateArtist(artist);
+  setAlbum(artist);
+  setTitle(artist);
 });
 
 
@@ -107,7 +109,7 @@ function setInstrument(artist) {
     "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
     "select ?name ?link WHERE{",
 
-    "dbr:" +artist + " dbo:instrument ?instrument.",
+    "dbr:" + artist + " dbo:instrument ?instrument.",
     "?instrument foaf:isPrimaryTopicOf ?link.",
     "?instrument rdfs:label ?name.",
     "FILTER(langMatches(lang(?name), \"EN\")).",
@@ -126,26 +128,74 @@ function setInstrument(artist) {
 function setAssociateArtist(artist) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
-    "PREFIX dbr: <http://dbpedia.org/resource/>",
-
-    "select distinct ?query ?name where {",
+    "PREFIX dbr: <http://dbpedia.org/resource/> ",
+    "select distinct ?query ?name",
+    "where {",
+    "{ ",
+    "?query dbo:associatedMusicalArtist dbr:" + artist + ".",
+    "?query rdfs:label ?name.",
+    "}",
+    "UNION",
+    "{",
     "dbr:" + artist + " dbo:associatedMusicalArtist ?query.",
     "?query rdfs:label ?name.",
-    "FILTER(langMatches(lang(?name),\"en\")).",
-    "}"
+    "}",
+    "?query dbo:genre ?genre.",
+    "FILTER (langMatches(lang(?name),\"en\") && ?genre = dbr:Jazz).",
+    "}",
   ].join(" ");
 
-  console.log(query);
-
-
   sparqlQuery(query).then(function (data) {
-    console.log(data)
     for (var i = 0; i < data.results.bindings.length; i++) {
       var str = "<li> <a href=\artist.html?search=" + getRessourceLink(data.results.bindings[i].query.value) + " class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
       document.getElementById("artistes").innerHTML += str;
     }
   });
 
+}
+
+function setAlbum(artist) {
+  var query = [
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+    "select ?name ?album  WHERE{",
+    "?album a dbo:Album.",
+    "?album rdfs:label ?name.",
+    "?album dbo:artist dbr:" + artist + ".",
+    "FILTER (langMatches(lang(?name),\"en\")).",
+    "}",
+
+  ].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+    for (var i = 0; i < data.results.bindings.length; i++) {
+      var str = "<li> <a href=\album.html?search=" + getRessourceLink(data.results.bindings[i].album.value) + " class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+      document.getElementById("albums").innerHTML += str;
+    }
+  });
+}
+
+function setTitle(artist) {
+  var query = [
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "select ?link ?name  WHERE{",
+    "?song rdf:type dbo:Song.",
+    "?song dbo:artist dbr:" + artist + ".",
+    "?song foaf:name ?name.",
+    "?song foaf:isPrimaryTopicOf ?link.",
+    "FILTER (langMatches(lang(?name),\"en\")).",
+    "}",
+
+  ].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+    for (var i = 0; i < data.results.bindings.length; i++) {
+      var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+      document.getElementById("titles").innerHTML += str;
+    }
+  });
 }
 
 
@@ -157,7 +207,6 @@ function sparqlQuery(query) {
 
     let url = "http://dbpedia.org/sparql";
     const queryUrl = url + "?query=" + encodeURIComponent(query) + "&format=json";
-    //console.log(queryUrl);
     $.ajax({
       dataType: "json",
       url: queryUrl,
@@ -176,8 +225,7 @@ function sparqlQuery(query) {
 
 function getRessourceLink(uri) {
   var a = uri.split("http://dbpedia.org/resource/");
-  console.log(a);
-  if (a.length == 2) {
+  if (a.length === 2) {
     return a[1];
   }
 }
