@@ -24,6 +24,12 @@
   <meta name="theme-color" content="#DE89BE">
 </head>
 
+<script src="src/js/vendor/modernizr-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="src/js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+<script src="src/js/plugins.js"></script>
+<script src="src/js/album.js"></script>
+
 <body>
 <nav class="navbar navbar-light yellow accent-4">
   <div class="container">
@@ -46,28 +52,28 @@
 <div class="container-fluid">
   <div class="row">
 
-    <div class="col-sm-auto">
-      <img id="cover" src="img/JUL.jpg" alt="thumbnail" class="img-thumbnail"
-           style="width: 350px">
+    <div id="cover" class="col-sm-auto">
+
+      <!-- <img id="cover" alt="thumbnail" class="img-thumbnail" style="width: 350px"> -->
     </div>
 
     <div class="col-sm text-left">
-      <h4 id="artist" class="text-lg-left text-secondary">Artist : </h4>
-        <a href=""> Jul </a>
+      <h4 class="text-lg-left text-secondary">Artist : </h4>
+        <a id="artist" href=""> Jul </a>
       <br /><br />
-      <h4 id="year" class="text-lg-left text-secondary">Year : </h4>
-        2019
+      <h4 class="text-lg-left text-secondary">Year : </h4>
+      <div id="year"> 2019 </div>
       <br /><br />
-      <h4 id="genre" class="text-lg-left text-secondary">Genre : </h4>
-      <a href=""> MRC LA ZOOOOOOONE </a>
+      <h4 class="text-lg-left text-secondary">Genre : </h4>
+      <a id="genre" href=""> MRC LA ZOOOOOOONE </a>
       <br /><br />
-      <h4 id="label" class="text-lg-left text-secondary">Label : </h4>
-      <a href="">D'or et de Platine </a>
+      <h4 class="text-lg-left text-secondary">Label : </h4>
+      <a id="label" href="">D'or et de Platine </a>
     </div>
 
     <div class="col-6 text-left">
-      <h4 id="description" class="text-lg-left text-secondary">Description : </h4>
-        C'est pas des lol
+      <h4 class="text-lg-left text-secondary">Description : </h4>
+      <div id="abstract"> C'est pas des lol </div>
     </div>
 
   </div>
@@ -166,10 +172,5 @@
 -->
 </div>
 </body>
-<script src="js/vendor/modernizr-3.7.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
-<script src="js/plugins.js"></script>
-<script src="js/main.js"></script>
 
 </html>
