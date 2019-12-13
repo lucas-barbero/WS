@@ -19,7 +19,7 @@
   <!-- Material Design Bootstrap -->
   <link href="node_modules/mdbootstrap/css/mdb.min.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="src/css/main.css">
 
   <meta name="theme-color" content="#DE89BE">
 </head>
@@ -28,7 +28,7 @@
 <nav class="navbar navbar-light yellow accent-4">
   <div class="container">
     <a id="navbar-title" class="navbar-brand" href="index.html">
-      <img src="jazz.png" class = class="img-thumbnail" style="width: 30px" >
+      <img src="img/jazz_icon.png" class = class="img-thumbnail" style="width: 30px" >
       Jazz Suite
     </a>
   </div>
@@ -40,20 +40,17 @@
 <div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-4 justify-content-lg-center ml-5 mr-auto mt-auto mb-auto">
-      <img src="mathon.jpg" class="col-lg-12" alt="">
+      <img id="photo" src="mathon.jpg" class="col-lg-12" alt="">
     </div>
     <div class="col-6 justify-content-center">
       <div class="row justify-content-left mb-lg-0">
-        <h1 class="text-primary elements">Herbie Hancock</h1>
+        <h1 id="name" class="text-primary elements"></h1>
       </div>
       <div class="row justify-content-left">
-        <h5 class="text-secondary elements">Born April 12, 1940 in Chicago(Illinois) UnitedStates <hr></h5>
+        <h5 id="date" class="text-secondary elements"><hr></h5>
       </div>
       <div class="row justify-content-left mb-lg-0">
-        <h5 class="text-secondary elements">American pianist, keyboardist, bandleader and composer<hr></h5>
-      </div>
-      <div class="row justify-content-left mb-lg-0">
-        <h5 class="text-secondary elements"> Auteur de  : 1 + 1 (album)<hr></h5>
+        <h5  id="description" class="text-secondary elements"> </h5>
       </div>
     </div>
   </div>
@@ -74,8 +71,6 @@
       <div class="container container-titles">
         <h2 class="text-center text-secondary elements">Titles</h2>
         <ul id ="titles" class="list-group list-group-flush list-titles scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
         </ul>
       </div>
     </div>
@@ -84,8 +79,6 @@
       <div class="container container-albums"  >
         <h2 class="text-center text-secondary elements">Albums</h2>
         <ul id ="albums" class="list-group list-group-flush list-instruments scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
         </ul>
       </div>
     </div>
@@ -98,8 +91,6 @@
       <div class="container container-instruments"  >
         <h2 class="text-center text-secondary elements">Instruments</h2>
         <ul id ="instruments" class="list-group list-group-flush list-instruments scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet</a>
         </ul>
       </div>
     </div>
@@ -108,13 +99,6 @@
       <div class="container container-artistes"  >
         <h2 class="text-center text-secondary elements">Artists Associates</h2>
         <ul id ="artistes associate" class="list-group list-group-flush list-artiste scrollbar-light-blue">
-          <a href="#!" class="list-group-item list-group-item-action">Jean-Mich Violon</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
-          <a href="#!" class="list-group-item list-group-item-action">Pwet Man</a>
         </ul>
       </div>
     </div>
@@ -126,10 +110,9 @@
 </div>
 
 </body>
-<script src="js/vendor/modernizr-3.7.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
-<script src="js/plugins.js"></script>
-<script src="js/artist.js"></script>
+<script src="src/js/vendor/modernizr-3.7.1.min.js"></script>
+<script>window.jQuery || document.write('<script src="src/js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+<script src="src/js/plugins.js"></script>
+<script src="src/js/artist.js"></script>
 
 </html>
