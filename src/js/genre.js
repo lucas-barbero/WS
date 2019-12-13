@@ -7,6 +7,9 @@ $(document).ready(function () {
     window.location.assign("404.html")
   }
 
+  var isJazzSubGenre = verifJazzSubGenre();
+  console.log(isJazzSubGenre);
+
   setName(subGenre);
   setAbstract(subGenre);
   setOrigin(subGenre);
@@ -20,6 +23,29 @@ $(document).ready(function () {
 
 /* -----------  Set functions  -----------  */
 // the following functions allow the page to set the different informations of the subgenre
+
+function verifJazzSubGenre(subGenre) {
+  var query = [
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+
+    "select distinct ?relation where {",
+    "dbr:Jazz ?a dbr:" + subGenre + ".",
+    "}",
+  ].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+      console.log(data);
+      data.results.bindings.forEach(element => {
+        if(element.relation.value=="http://dbpedia.org/ontology/musicSubgenre"){
+          return true;
+        }
+        return false;
+      })
+    }
+  );
+}
 
 function setName(subGenre) {
   var query = [
@@ -95,7 +121,6 @@ function setSubGenre(subGenre) {
     }
   );
 }
-x
 
 function setOrigin(subGenre) {
   var query = [
