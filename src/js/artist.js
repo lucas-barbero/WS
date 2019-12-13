@@ -5,7 +5,7 @@ $(document).ready(function () {
   if (!artist) {
     window.location.assign("404.html")
   }
-
+  setPhoto(artist);
   setName(artist);
   setAbstract(artist);
   setDescription(artist);
@@ -20,6 +20,21 @@ $(document).ready(function () {
 /* -----------  Set functions  -----------  */
 
 // the following functions allow the page to set the different informations of the artist
+
+function setPhoto(artist) {
+  var query = [
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "select distinct ?picture where {",
+    "dbr:" + artist + " foaf:depiction ?picture",
+    "} LIMIT 100000",
+].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+      document.getElementById("photo").src = data.results.bindings[0].picture.value;
+    }
+  );
+}
 
 function setName(artist) {
   var query = [
