@@ -208,9 +208,9 @@ function setArtist(subGenre) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    console.log(data);
+    //console.log(data);
     for (var i = 0; i < data.results.bindings.length ; i++) {
-      var str = "<li> <a href=\"artiste.html?search="+ getRessourceLink(data.results.bindings[i].link.value) +"\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+      var str = "<li> <a href=\"artist.html?search="+ getRessourceLink(data.results.bindings[i].link.value) +"\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
       document.getElementById("artists").innerHTML +=str;
     }
   });
@@ -243,7 +243,7 @@ function sparqlQuery(query) {
 
 function getRessourceLink(uri) {
   var a = uri.split("http://dbpedia.org/resource/");
-  console.log(a);
+  //console.log(a);
   if(a.length == 2){
     return a[1];
   }
