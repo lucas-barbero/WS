@@ -1,9 +1,8 @@
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
-  const artist = urlParams.get('search');
-  console.log(artist);
+  const subGenre = urlParams.get('search');
 
-  if (!artist) {
+  if (!subGenre) {
     window.location.assign("404.html")
   }
 

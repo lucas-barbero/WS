@@ -31,7 +31,8 @@ function setPhoto(artist) {
 ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      document.getElementById("photo").src = data.results.bindings[0].picture.value;
+    console.log(data);
+      document.getElementsByClassName("picture-artist")[0].src = data.results.bindings[0].picture.value;
     }
   );
 }
@@ -68,7 +69,6 @@ function setDateNaissance(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      console.log(data)
       var date = data.results.bindings[0].date.value;
       var place = data.results.bindings[0].placeName.value;
       var int2 = new Intl.DateTimeFormat("en-US", {year: "numeric", month: "long", day: "numeric"});
@@ -92,7 +92,6 @@ function setAbstract(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      //console.log(data);
       document.getElementById("abstract").innerHTML = data.results.bindings[0].abstract.value;
     }
   );
@@ -111,7 +110,6 @@ function setDescription(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      console.log(data);
       document.getElementById("description").innerText = data.results.bindings[0].description.value;
     }
   );
@@ -132,7 +130,6 @@ function setInstrument(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    console.log(data)
     for (var i = 0; i < data.results.bindings.length; i++) {
       var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
       document.getElementById("instruments").innerHTML += str;
@@ -206,6 +203,7 @@ function setTitle(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
+    console.log(query)
     for (var i = 0; i < data.results.bindings.length; i++) {
       var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
       document.getElementById("titles").innerHTML += str;
@@ -226,11 +224,9 @@ function sparqlQuery(query) {
       dataType: "json",
       url: queryUrl,
       success: function (data) {
-        console.log("The sparql request was succesfull");
         resolve(data);
       },
       error: function (err) {
-        console.log("Error with the sparql request.");
         reject(err)
       }
     });

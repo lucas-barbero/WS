@@ -86,25 +86,13 @@ sparqlQuery(queryAlbums).then(function (data) {
 
 $(document).ready(function () {
 
-  const searchbar = $('input');
-  $("#submit").click(function () {
-    let searchType = $(".dropdown-toggle").val();
-    let request;
-    let search;
-    if (searchbar.typeahead("getActive").name.toLowerCase() == searchbar.val().toLowerCase()) {
-      request = searchbar.typeahead("getActive");
-      const uri = request.value;
-      search = uri.substring(uri.lastIndexOf("/") + 1);
-      const queryString = "?search=" + encodeURIComponent(search);
-      window.location.href = searchType.toLowerCase() + ".html" + queryString;
-    } else {
-      window.location.assign("404.html")
+  $("#submit").click(doSearch);
+  $(document).keypress(function(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+      doSearch();
     }
-
-
   });
-
-
   $(function () {
     $(".dropdown-menu a").click(function () {
       $(".dropdown-toggle").text($(this).text());
@@ -159,12 +147,10 @@ function sparqlQuery(query) {
 
     let url = "http://dbpedia.org/sparql";
     const queryUrl = url + "?query=" + encodeURIComponent(query) + "&format=json";
-    console.log(queryUrl);
     $.ajax({
       dataType: "json",
       url: queryUrl,
       success: function (data) {
-        console.log(data);
         resolve(data);
       },
       error: function (err) {
@@ -172,5 +158,22 @@ function sparqlQuery(query) {
       }
     });
   });
+
+}
+
+function doSearch() {
+  const searchbar = $('input');
+  let searchType = $(".dropdown-toggle").val();
+  let request;
+  let search;
+  if (searchbar.typeahead("getActive").name.toLowerCase() === searchbar.val().toLowerCase()) {
+    request = searchbar.typeahead("getActive");
+    const uri = request.value;
+    search = uri.substring(uri.lastIndexOf("/") + 1);
+    const queryString = "?search=" + encodeURIComponent(search);
+    window.location.href = searchType.toLowerCase() + ".html" + queryString;
+  } else {
+    window.location.assign("404.html")
+  }
 
 }
