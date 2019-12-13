@@ -7,6 +7,12 @@ $(document).ready(function () {
     window.location.assign("404.html")
   }
 
+  verifJazzSubGenre(subGenre).then(function (isJazzSubgenre) {
+    if (!isJazzSubgenre) {
+      window.location.assign("404.html")
+    }
+  });
+
   setName(subGenre);
   setAbstract(subGenre);
   setOrigin(subGenre);
@@ -21,6 +27,34 @@ $(document).ready(function () {
 /* -----------  Set functions  -----------  */
 // the following functions allow the page to set the different informations of the subgenre
 
+function verifJazzSubGenre(subGenre) {
+  return new Promise(function (resolve) {
+    var query = [
+      "PREFIX dbo: <http://dbpedia.org/ontology/>",
+      "PREFIX dbr: <http://dbpedia.org/resource/>",
+      "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n",
+
+      "select distinct ?relation where {\n",
+      "dbr:Jazz ?relation dbr:" + subGenre + "\n.",
+      "}",
+    ].join(" ");
+
+    let isJazzSubGenre = false;
+
+    sparqlQuery(query).then(function (data) {
+        data.results.bindings.forEach(element => {
+          if (element.relation.value == "http://dbpedia.org/ontology/musicSubgenre") {
+            isJazzSubGenre = true;
+            resolve(true);
+          }
+        })
+        resolve(false);
+
+      }
+    );
+   })
+}
+
 function setName(subGenre) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
@@ -28,7 +62,7 @@ function setName(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?name where {",
-    "dbr:" + subGenre + " foaf:name ?name.",
+    "dbr:"+subGenre + " foaf:name ?name.",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
   ].join(" ");
@@ -46,22 +80,33 @@ function setDerives(subGenre) {
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?name ?genreDerives WHERE{\n",
+    "select distinct ?name ?genreDerives ?wikiLink WHERE{\n",
     "dbr:"+subGenre+" dbo:derivative ?genreDerives.",
-    "?genreDerives foaf:name ?name\n",
+    "?genreDerives foaf:name ?name.\n",
+    "?genreDerives foaf:isPrimaryTopicOf ?wikiLink.\n",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      //console.log(data);
       var virgule = false;
       data.results.bindings.forEach(element => {
+
+
+        // get the resource in the uri
+        let resource = getResourceFromLink(element.genreDerives.value);
+        verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
           if (virgule) {
             document.getElementById("derives").innerHTML += ", ";
           }
           virgule = true;
-          document.getElementById("derives").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.genreDerives.value) + "\">" + element.name.value + "</a>"
+          if (isJazzSubgenre) {
+            document.getElementById("derives").innerHTML += "<a href=\"genre.html?search="+ getResourceFromLink(element.genreDerives.value) + "\">" + element.name.value + "</a>"
+            console.log("Genrededan");
+          }else{
+            document.getElementById("derives").innerHTML += "<a href=\""+ element.wikiLink.value+"\">" + element.name.value + "</a>"
+          }
+        });
         }
       );
     }
@@ -74,28 +119,40 @@ function setSubGenre(subGenre) {
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?name ?subGenre WHERE{\n",
+    "select distinct ?name ?subGenre ?wikiLink WHERE{\n",
     "dbr:"+subGenre+" dbo:musicSubgenre ?subGenre.",
-    "?subGenre foaf:name ?name\n",
+    "?subGenre foaf:name ?name.\n",
+    "?subGenre foaf:isPrimaryTopicOf ?wikiLink.\n",
+
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      //console.log(data);
       var virgule = false;
       data.results.bindings.forEach(element => {
-          if (virgule) {
-            document.getElementById("sub-genre").innerHTML += ", ";
-          }
-          virgule = true;
-          document.getElementById("sub-genre").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.subGenre.value) + "\">" + element.name.value + "</a>"
+
+
+          // get the resource in the uri
+          let resource = getResourceFromLink(element.subGenre.value);
+          verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
+            if (virgule) {
+              document.getElementById("sub-genre").innerHTML += ", ";
+            }
+            virgule = true;
+            if (isJazzSubgenre) {
+              document.getElementById("sub-genre").innerHTML += "<a href=\"genre.html?search="+ getResourceFromLink(element.subGenre.value) + "\">" + element.name.value + "</a>"
+              console.log("Genrededan");
+            }else{
+              document.getElementById("sub-genre").innerHTML += "<a href=\""+ element.wikiLink.value+"\">" + element.name.value + "</a>"
+            }
+          });
         }
       );
     }
   );
+
 }
-x
 
 function setOrigin(subGenre) {
   var query = [
@@ -104,27 +161,40 @@ function setOrigin(subGenre) {
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?origine ?name WHERE{",
+    "select distinct ?origine ?name ?wikiLink WHERE{",
     "  dbr:" + subGenre + " dbo:stylisticOrigin ?origine.",
     "  ?origine foaf:name ?name.",
+    "?origine foaf:isPrimaryTopicOf ?wikiLink.\n",
+
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
 
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      //console.log(data);
       var virgule = false;
       data.results.bindings.forEach(element => {
-          if (virgule) {
-            document.getElementById("origine").innerHTML += ", ";
-          }
-          virgule = true;
-          document.getElementById("origine").innerHTML += "<a href=\"genre.html?search="+ getRessourceLink(element.origine.value) +"\" \>" + element.name.value + "</a>"
+
+
+          // get the resource in the uri
+          let resource = getResourceFromLink(element.origine.value);
+          verifJazzSubGenre(resource).then(function (isJazzSubgenre) {
+            if (virgule) {
+              document.getElementById("origine").innerHTML += ", ";
+            }
+            virgule = true;
+            if (isJazzSubgenre) {
+              document.getElementById("origine").innerHTML += "<a href=\"genre.html?search="+ getResourceFromLink(element.origine.value) + "\">" + element.name.value + "</a>"
+              console.log("Genrededan");
+            }else{
+              document.getElementById("origine").innerHTML += "<a href=\""+ element.wikiLink.value+"\">" + element.name.value + "</a>"
+            }
+          });
         }
       );
     }
   );
+
 }
 
 
@@ -210,7 +280,7 @@ function setArtist(subGenre) {
   sparqlQuery(query).then(function (data) {
     //console.log(data);
     for (var i = 0; i < data.results.bindings.length ; i++) {
-      var str = "<li> <a href=\"artist.html?search="+ getRessourceLink(data.results.bindings[i].link.value) +"\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+      var str = "<li> <a href=\"artist.html?search="+ getResourceFromLink(data.results.bindings[i].link.value) +"\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
       document.getElementById("artists").innerHTML +=str;
     }
   });
@@ -241,7 +311,7 @@ function sparqlQuery(query) {
 
 
 
-function getRessourceLink(uri) {
+function getResourceFromLink(uri) {
   var a = uri.split("http://dbpedia.org/resource/");
   //console.log(a);
   if(a.length == 2){
