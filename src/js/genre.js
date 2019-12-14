@@ -1,7 +1,6 @@
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
   const subGenre = urlParams.get('search');
-  //console.log(subGenre);
 
   if (!subGenre) {
     window.location.assign("404.html")
@@ -25,6 +24,7 @@ $(document).ready(function () {
 
 
 /* -----------  Set functions  -----------  */
+
 // the following functions allow the page to set the different informations of the subgenre
 
 function verifJazzSubGenre(subGenre) {
@@ -225,16 +225,16 @@ function setDate(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?date  WHERE{",
-    "  dbr:"+subGenre+" dbp:culturalOrigins ?date.",
+    "  dbr:" + subGenre + " dbp:culturalOrigins ?date.",
     "}",
 
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    //console.log(data);
-    var date = data.results.bindings[0].date.value;
+      //console.log(data);
+      var date = data.results.bindings[0].date.value;
       date = Math.floor(date);
-      if(date < 0){
+      if (date < 0) {
         date = -date;
       }
       document.getElementById("date").innerHTML = date;
@@ -249,7 +249,7 @@ function setAbstract(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?abstract WHERE{",
-    "  dbr:"+subGenre+" dbo:abstract ?abstract	.",
+    "  dbr:" + subGenre + " dbo:abstract ?abstract	.",
     "  FILTER(langMatches(lang(?abstract), \"EN\")).",
     "}"
   ].join(" ");
@@ -268,7 +268,7 @@ function setInstrument(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?name ?link WHERE{\n",
-    "dbr:"+subGenre+" dbo:instrument ?instrument.",
+    "dbr:" + subGenre + " dbo:instrument ?instrument.",
     "?instrument dbp:name ?name.\n",
     "?instrument foaf:isPrimaryTopicOf ?link.\n",
     "}"
@@ -297,7 +297,7 @@ function setArtist(subGenre) {
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
     "select distinct ?link ?name where {\n",
-    "?a dbo:genre dbr:"+subGenre+".",
+    "?a dbo:genre dbr:" + subGenre + ".",
     "?a dbo:artist ?link.\n",
     "?link foaf:name ?name\n",
     "}"
@@ -320,6 +320,7 @@ function setArtist(subGenre) {
 }
 
 /* -----------  Sparql request  -----------  */
+
 // get data from a sql query
 function sparqlQuery(query) {
   return new Promise(function (resolve, reject) {
