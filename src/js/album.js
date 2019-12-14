@@ -13,8 +13,6 @@ $(document).ready(function () {
   setAbstract(album);
   setCover(album);
   setLabel(album);
-  /*
-  */
 });
 
 
@@ -140,13 +138,17 @@ function setArtist(album) {
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?artist where {\n",
-    "dbr:"+album+" dbo:artist ?artist.",
+    "select distinct ?artistLink ?artistName where {",
+    "dbr:"+album+" dbo:artist ?artistLink.",
+    "?artistLink foaf:name ?artistName",
     "}"
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    document.getElementById("artist").innerHTML = data.results.bindings[0].artist.value;
+    var artistLink = "artist.html?search=" + getRessourceLink(data.results.bindings[0].artistLink.value);
+    var artistName = data.results.bindings[0].artistName.value;
+    document.getElementById("artist").innerHTML = artistName;
+    document.getElementById("artist").setAttribute("href", artistLink);
   });
 }
 
@@ -156,13 +158,17 @@ function setLabel(album) {
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?label where {\n",
-    "dbr:"+album+" dbo:recordLabel ?label.",
+    "select distinct ?labelLink ?labelName where {",
+    "dbr:"+album+" dbo:recordLabel ?labelLink.",
+    "?labelLink foaf:name ?labelName",
     "}"
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    document.getElementById("label").innerHTML = data.results.bindings[0].label.value;
+    var labelLink = data.results.bindings[0].labelLink.value;
+    var labelName = data.results.bindings[0].labelName.value;
+    document.getElementById("label").innerHTML = labelName;
+    document.getElementById("label").setAttribute("href", labelLink);
   });
 }
 
@@ -199,7 +205,7 @@ function getRessourceLink(uri) {
 }
 
 
-/* -----------  Crypted string to md5 Hash  -----------  */
+/* -----------  Crypt string to md5 Hash  -----------  */
 function md5cycle(x, k) {
   var a = x[0], b = x[1], c = x[2], d = x[3];
 
