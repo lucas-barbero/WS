@@ -1,6 +1,6 @@
-var autoCompleteResult;
+let autoCompleteResult;
 
-var querySubGenre = [
+const querySubGenre = [
   "PREFIX dbo: <http://dbpedia.org/ontology/>",
   "PREFIX dbr: <http://dbpedia.org/resource/>",
   "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
@@ -11,7 +11,7 @@ var querySubGenre = [
   "}",
 ].join(" ");
 
-var queryArtists = [
+const queryArtists = [
   "PREFIX dbo: <http://dbpedia.org/ontology/>",
   "PREFIX dbr: <http://dbpedia.org/resource/>",
 
@@ -32,7 +32,7 @@ var queryArtists = [
 
 ].join(" ");
 
-var queryAlbums = [
+const queryAlbums = [
   "PREFIX dbo: <http://dbpedia.org/ontology/>",
   "PREFIX dbr: <http://dbpedia.org/resource/>",
   "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
@@ -53,33 +53,42 @@ var queryAlbums = [
 
 ].join(" ");
 
-var subGenre = sparqlQuery(querySubGenre).then(function (data) {
+let autocompleteData = [];
+
+initAutoComplete();
+
+
+let subGenre = sparqlQuery(querySubGenre).then(function (data) {
     subGenre = data.results.bindings.map(x => {
-      return {name: x.name.value, value: x.query.value}
+      return {name: x.name.value, value: x.query.value, type: "genre"}
     });
-    autoCompleteResult = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-      queryTokenizer: Bloodhound.tokenizers.whitespace,
-      local: subGenre
-    });
-    autoCompleteResult.initialize();
-    initAutoComplete();
+
+    autocompleteData = autocompleteData.concat(subGenre);
+    refreshAutocomplete(autocompleteData);
   }
 );
 
-var artists;
+let artists;
 sparqlQuery(queryArtists).then(function (data) {
     artists = data.results.bindings.map(x => {
-      return {name: x.name.value, value: x.query.value}
+      return {name: x.name.value, value: x.query.value, type: "artist"}
     });
+    autocompleteData = autocompleteData.concat(artists);
+    refreshAutocomplete(autocompleteData);
+
+
   }
 );
 
-var albums;
+let albums;
 sparqlQuery(queryAlbums).then(function (data) {
     albums = data.results.bindings.map(x => {
-      return {name: x.name.value, value: x.query.value}
+      return {name: x.name.value, value: x.query.value, type: "album"}
     });
+    autocompleteData = autocompleteData.concat(albums);
+    refreshAutocomplete(autocompleteData);
+
+
   }
 );
 
@@ -87,7 +96,7 @@ sparqlQuery(queryAlbums).then(function (data) {
 $(document).ready(function () {
 
   $("#submit").click(doSearch);
-  $(document).keypress(function(event) {
+  $(document).keypress(function (event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
     if (keycode == '13') {
       doSearch();
@@ -99,6 +108,9 @@ $(document).ready(function () {
       $(".dropdown-toggle").val($(this).text());
       var toChose;
       switch ($(this).text()) {
+        case "All":
+          toChose = autocompleteData;
+          break;
         case "Artist":
           toChose = artists;
           break;
@@ -121,6 +133,14 @@ $(document).ready(function () {
 });
 
 function initAutoComplete() {
+
+  autoCompleteResult = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: autocompleteData
+  });
+  autoCompleteResult.initialize();
+
   $('input').typeahead({
 
     source: autoCompleteResult.ttAdapter(),
@@ -134,13 +154,19 @@ function initAutoComplete() {
 
     // typeahead dropdown template
     menu: '<ul class="typeahead dropdown-menu"></ul>',
-    item: '<li><a href="#"></a></li>',
+    item: '<li class="dropdown-item"><a class="dropdown-item" href="#" role="option"></a></li>',
+
     // auto select
     autoSelect: true,
 
   });
 }
 
+function refreshAutocomplete(data) {
+  autoCompleteResult.clear();
+  autoCompleteResult.local = data;
+  autoCompleteResult.initialize(true);
+}
 
 function sparqlQuery(query) {
   return new Promise(function (resolve, reject) {
@@ -163,11 +189,11 @@ function sparqlQuery(query) {
 
 function doSearch() {
   const searchbar = $('input');
-  let searchType = $(".dropdown-toggle").val();
   let request;
   let search;
   if (searchbar.typeahead("getActive").name.toLowerCase() === searchbar.val().toLowerCase()) {
     request = searchbar.typeahead("getActive");
+    let searchType = request.type;
     const uri = request.value;
     search = uri.substring(uri.lastIndexOf("/") + 1);
     const queryString = "?search=" + encodeURIComponent(search);
