@@ -469,5 +469,8 @@ a:hover {
   margin-top: 7%;
 }
 
+.typeahead li.dropdown-item.active, .typeahead li.active a{
+  background-color: #ffd600 ;
+}
 
 /* End of Artist */
