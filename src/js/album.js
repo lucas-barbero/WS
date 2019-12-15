@@ -13,6 +13,9 @@ $(document).ready(function () {
   setAbstract(album);
   setCover(album);
   setLabel(album);
+  setPreviousWork(album);
+  setSubsequentWork(album);
+  setGenre(album);
 });
 
 
@@ -47,20 +50,20 @@ function setGenre(album) {
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?name ?subGenre WHERE{\n",
-    "dbr:"+album+" dbo:musicSubgenre ?subGenre.",
-    "?subGenre foaf:name ?name\n",
+    "select distinct ?name ?genre WHERE{\n",
+    "dbr:"+album+" dbo:genre ?genre.",
+    "?genre foaf:name ?name\n",
     "FILTER(langMatches(lang(?name), \"EN\")).\n",
     "}",
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
       //console.log(data);
-      document.getElementById("sub-genre").innerHTML = "<ul>";
+      document.getElementById("genre").innerHTML = "<ul>";
       data.results.bindings.forEach(element =>
-        document.getElementById("sub-genre").innerHTML += "<li>"+element.name.value+"</li>"
+        document.getElementById("genre").innerHTML += "<li><a href=\"genre.html?search=" + getRessourceLink(element.genre.value)+ "\" >" +element.name.value+"</a></li>"
       );
-      document.getElementById("sub-genre").innerHTML +="</ul>";
+      document.getElementById("genre").innerHTML +="</ul>";
     }
   );
 }
@@ -153,22 +156,65 @@ function setArtist(album) {
 }
 
 function setLabel(album) {
+    var query = [
+      "PREFIX dbo: <http://dbpedia.org/ontology/>",
+      "PREFIX dbr: <http://dbpedia.org/resource/>",
+      "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+
+      "select distinct ?labelLink ?labelName where {",
+      "dbr:"+album+" dbo:recordLabel ?labelLink.",
+      "?labelLink foaf:name ?labelName",
+      "}"
+    ].join(" ");
+
+    sparqlQuery(query).then(function (data) {
+        document.getElementById("label").innerHTML = "<ul>";
+        data.results.bindings.forEach(element =>
+          document.getElementById("label").innerHTML += "<li>" +element.labelName.value+ "</li>"
+        );
+        document.getElementById("label").innerHTML +="</ul>";
+    });
+}
+
+function setPreviousWork(album) {
   var query = [
     "PREFIX dbo: <http://dbpedia.org/ontology/>",
     "PREFIX dbr: <http://dbpedia.org/resource/>",
     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
 
-    "select distinct ?labelLink ?labelName where {",
-    "dbr:"+album+" dbo:recordLabel ?labelLink.",
-    "?labelLink foaf:name ?labelName",
+    "select distinct ?previousWorkLink ?previousWorkName where {",
+    "dbr:"+album+" dbo:previousWork ?previousWorkLink.",
+    "?previousWorkLink foaf:name ?previousWorkName",
     "}"
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    var labelLink = data.results.bindings[0].labelLink.value;
-    var labelName = data.results.bindings[0].labelName.value;
-    document.getElementById("label").innerHTML = labelName;
-    document.getElementById("label").setAttribute("href", labelLink);
+    var previousWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].previousWorkLink.value);
+    var previousWorkName = data.results.bindings[0].previousWorkName.value;
+    console.log(previousWorkName);
+    console.log(previousWorkLink);
+    document.getElementById("previousWork").innerHTML = previousWorkName;
+    document.getElementById("previousWork").setAttribute("href", previousWorkLink);
+  });
+}
+
+function setSubsequentWork(album) {
+  var query = [
+    "PREFIX dbo: <http://dbpedia.org/ontology/>",
+    "PREFIX dbr: <http://dbpedia.org/resource/>",
+    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>",
+
+    "select distinct ?subWorkLink ?subWorkName where {",
+    "dbr:"+album+" dbo:subsequentWork ?subWorkLink.",
+    "?subWorkLink foaf:name ?subWorkName",
+    "}"
+  ].join(" ");
+
+  sparqlQuery(query).then(function (data) {
+    var subWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].subWorkLink.value);
+    var subWorkName = data.results.bindings[0].subWorkName.value;
+    document.getElementById("subsequentWork").innerHTML = subWorkName;
+    document.getElementById("subsequentWork").setAttribute("href", subWorkLink);
   });
 }
 
