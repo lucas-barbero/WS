@@ -255,8 +255,20 @@ function setAbstract(subGenre) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      //console.log(data);
-      document.getElementById("abstract").innerHTML = data.results.bindings[0].abstract.value;
+    if (data.results.bindings.length > 0) {
+      $.ajax({
+          url: 'http://api.dbpedia-spotlight.org/en/annotate',
+          data: {text: data.results.bindings[0].abstract.value, confidence: 0.9},
+          success: function (data) {
+            let abstractWithLink = data.getElementsByTagName("div")[0];
+            for (let item of abstractWithLink.getElementsByTagName("a")) {
+              item.href = 'https://en.wikipedia.org/wiki/' + getResourceFromLink(item.href);
+            }
+            document.getElementById("abstract").innerHTML = abstractWithLink.innerHTML;
+          },
+        }
+      );
+    }
     }
   );
 }
