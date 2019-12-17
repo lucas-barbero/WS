@@ -255,7 +255,6 @@ function setAbstract(subGenre) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      //console.log(data);
       document.getElementById("abstract").innerHTML = data.results.bindings[0].abstract.value;
     }
   );
@@ -347,7 +346,6 @@ function sparqlQuery(query) {
 
 function getResourceFromLink(uri) {
   var a = uri.split("http://dbpedia.org/resource/");
-  //console.log(a);
   if(a.length == 2){
     return a[1];
   }

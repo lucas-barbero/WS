@@ -191,15 +191,18 @@ function doSearch() {
   const searchbar = $('input');
   let request;
   let search;
-  if (searchbar.typeahead("getActive").name.toLowerCase() === searchbar.val().toLowerCase()) {
-    request = searchbar.typeahead("getActive");
-    let searchType = request.type;
-    const uri = request.value;
-    search = uri.substring(uri.lastIndexOf("/") + 1);
-    const queryString = "?search=" + encodeURIComponent(search);
-    window.location.href = searchType.toLowerCase() + ".html" + queryString;
-  } else {
-    window.location.assign("404.html")
+  if (searchbar.val().trim() !== '') {
+    if (searchbar.val().toLowerCase() === searchbar.typeahead("getActive").name.toLowerCase()) {
+      request = searchbar.typeahead("getActive");
+      let searchType = request.type;
+      const uri = request.value;
+      search = uri.substring(uri.lastIndexOf("/") + 1);
+      const queryString = "?search=" + encodeURIComponent(search);
+      window.location.href = searchType.toLowerCase() + ".html" + queryString;
+    } else {
+      window.location.assign("404.html")
+    }
   }
+
 
 }
