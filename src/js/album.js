@@ -1,6 +1,7 @@
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
-  const album = urlParams.get('search');
+  const albumParam = urlParams.get('search');
+  const album = fixParenthesis(albumParam);
   console.log(album);
 
   if (!album) {
@@ -250,6 +251,12 @@ function getRessourceLink(uri) {
   }
 }
 
+function fixParenthesis(strToFix) {
+  var ret = strToFix.replace("(","\\(");
+  ret = ret.replace(")","\\)");
+  ret = ret.replace("\'","\\\'");
+  return ret;
+}
 
 /* -----------  Crypt string to md5 Hash  -----------  */
 function md5cycle(x, k) {
