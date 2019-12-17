@@ -28,11 +28,11 @@ function setPhoto(artist) {
     "select distinct ?picture where {",
     "dbr:" + artist + " foaf:depiction ?picture",
     "} LIMIT 100000",
-].join(" ");
+  ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    console.log(data);
-      document.getElementsByClassName("picture-artist")[0].src = data.results.bindings[0].picture.value;
+      if (data.results.bindings.length > 0)
+        document.getElementsByClassName("picture-artist")[0].src = data.results.bindings[0].picture.value;
     }
   );
 }
@@ -69,12 +69,14 @@ function setDateNaissance(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      var date = data.results.bindings[0].date.value;
-      var place = data.results.bindings[0].placeName.value;
-      var int2 = new Intl.DateTimeFormat("en-US", {year: "numeric", month: "long", day: "numeric"});
-      date = new Date(date);
-      date = int2.format(date);
-      document.getElementById("date").innerHTML = date + " " + place;
+      if (data.results.bindings.length > 0) {
+        var date = data.results.bindings[0].date.value;
+        var place = data.results.bindings[0].placeName.value;
+        var int2 = new Intl.DateTimeFormat("en-US", {year: "numeric", month: "long", day: "numeric"});
+        date = new Date(date);
+        date = int2.format(date);
+        document.getElementById("date").innerHTML = date + " " + place;
+      }
     }
   );
 }
@@ -203,7 +205,7 @@ function setTitle(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    console.log(query)
+    console.log(query);
     for (var i = 0; i < data.results.bindings.length; i++) {
       var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
       document.getElementById("titles").innerHTML += str;
