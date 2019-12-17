@@ -359,7 +359,6 @@ function sparqlQuery(query) {
 
 function getResourceFromLink(uri) {
   var a = uri.split("http://dbpedia.org/resource/");
-  //console.log(a);
   if(a.length == 2){
     return a[1];
   }
