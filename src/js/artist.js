@@ -1,6 +1,7 @@
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
-  const artist = urlParams.get('search');
+  const artistParam = urlParams.get('search');
+  const artist = fixParenthesis(artistParam);
 
   if (!artist) {
     window.location.assign("404.html")
@@ -31,8 +32,11 @@ function setPhoto(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-      if (data.results.bindings.length > 0)
+      if (data.results.bindings.length > 0) {
         document.getElementsByClassName("picture-artist")[0].src = data.results.bindings[0].picture.value;
+      } else {
+        document.getElementsByClassName("picture-artist")[0].remove();
+      }
     }
   );
 }
@@ -254,5 +258,12 @@ function getRessourceLink(uri) {
   if (a.length === 2) {
     return a[1];
   }
+}
+
+function fixParenthesis(strToFix) {
+
+  var fixed = strToFix.replace(/[ !@#$%^&*()+=\-[\]\\';,./{}|":<>?~_]/g, "\\$&");
+  fixed = fixed.replace(" ", "+");
+  return fixed;
 }
 

@@ -277,10 +277,10 @@ function getRessourceLink(uri) {
 }
 
 function fixParenthesis(strToFix) {
-  var ret = strToFix.replace("(", "\\(");
-  ret = ret.replace(")", "\\)");
-  ret = ret.replace("\'", "\\\'");
-  return ret;
+
+  var fixed = strToFix.replace(/[ !@#$%^&*()+=\-[\]\\';,./{}|"<>?~_]/g, "\\$&");
+  fixed = fixed.replace(" ", "+");
+  return fixed;
 }
 
 
