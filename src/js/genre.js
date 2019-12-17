@@ -188,7 +188,6 @@ function setOrigin(subGenre) {
       var virgule = false;
       if(data.results.bindings.length==0){
         console.log("pas d'origine")
-        //document.getElementById("sub-genre-div").innerHTML = "";
         document.getElementById("origine-div").remove();
 
       }else {

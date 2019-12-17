@@ -149,9 +149,13 @@ function setInstrument(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    for (var i = 0; i < data.results.bindings.length; i++) {
-      var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
-      document.getElementById("instruments").innerHTML += str;
+    if(data.results.bindings.length==0){
+      document.getElementById("instruments-container").remove();
+    }else {
+      for (var i = 0; i < data.results.bindings.length; i++) {
+        var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+        document.getElementById("instruments").innerHTML += str;
+      }
     }
   });
 }
@@ -222,10 +226,14 @@ function setTitle(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    console.log(query);
-    for (var i = 0; i < data.results.bindings.length; i++) {
-      var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
-      document.getElementById("titles").innerHTML += str;
+
+    if(data.results.bindings.length==0){
+      document.getElementById("container-titles").remove();
+    }else {
+      for (var i = 0; i < data.results.bindings.length; i++) {
+        var str = "<li> <a href=\"" + data.results.bindings[i].link.value + "\" class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+        document.getElementById("titles").innerHTML += str;
+      }
     }
   });
 }
