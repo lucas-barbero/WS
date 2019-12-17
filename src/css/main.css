@@ -456,7 +456,8 @@ a:hover {
 }
 
 .picture-artist {
-  width: 20vw;
+  object-fit: cover;
+  max-width: 20vw;
   height: 20vw;
   margin-left: 6vw;
 }

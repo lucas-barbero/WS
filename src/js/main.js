@@ -199,7 +199,8 @@ function doSearch() {
     const queryString = "?search=" + encodeURIComponent(search);
     window.location.href = searchType.toLowerCase() + ".html" + queryString;
   } else {
-    window.location.assign("404.html")
+    //window.location.assign("404.html")
+    $('#noResults').modal('show');
   }
 
 }
