@@ -106,20 +106,20 @@ function setAbstract(album) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    if (data.results.bindings.length > 0) {
-      $.ajax({
-          url: 'http://api.dbpedia-spotlight.org/en/annotate',
-          data: {text: data.results.bindings[0].abstract.value, confidence: 0.9},
-          success: function (data) {
-            let abstractWithLink = data.getElementsByTagName("div")[0];
-            for (let item of abstractWithLink.getElementsByTagName("a")) {
-              item.href = 'https://en.wikipedia.org/wiki/' + getRessourceLink(item.href);
-            }
-            document.getElementById("abstract").innerHTML = abstractWithLink.innerHTML;
-          },
-        }
-      );
-    }
+      if (data.results.bindings.length > 0) {
+        $.ajax({
+            url: 'http://api.dbpedia-spotlight.org/en/annotate',
+            data: {text: data.results.bindings[0].abstract.value, confidence: 0.9},
+            success: function (data) {
+              let abstractWithLink = data.getElementsByTagName("div")[0];
+              for (let item of abstractWithLink.getElementsByTagName("a")) {
+                item.href = 'https://en.wikipedia.org/wiki/' + getRessourceLink(item.href);
+              }
+              document.getElementById("abstract").innerHTML = abstractWithLink.innerHTML;
+            },
+          }
+        );
+      }
     }
   );
 }
@@ -137,7 +137,7 @@ function setCover(album) {
 
   sparqlQuery(query).then(function (data) {
 
-    if( data.results.bindings.length > 0) {
+    if (data.results.bindings.length > 0) {
       var str = data.results.bindings[0].cover.value;
       // get the cover image link from wikipedia
       $.ajax({
@@ -149,7 +149,8 @@ function setCover(album) {
           let pages = data.query.pages;
           let imageLink;
           for (const key in pages) {
-            imageLink = pages[key].imageinfo[0].url;
+            if (key != -1)
+              imageLink = pages[key].imageinfo[0].url;
           }
           const image = new Image();
           image.src = imageLink;
@@ -214,9 +215,9 @@ function setPreviousWork(album) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    if(data.results.bindings.length==0){
+    if (data.results.bindings.length == 0) {
       document.getElementById("previous-container").remove();
-    }else {
+    } else {
       var previousWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].previousWorkLink.value);
       var previousWorkName = data.results.bindings[0].previousWorkName.value;
       console.log(previousWorkName);
@@ -241,9 +242,9 @@ function setSubsequentWork(album) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    if(data.results.bindings.length==0){
+    if (data.results.bindings.length == 0) {
       document.getElementById("subsequent-container").remove();
-    }else {
+    } else {
       var subWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].subWorkLink.value);
       var subWorkName = data.results.bindings[0].subWorkName.value;
       document.getElementById("subsequentWork").innerHTML = subWorkName;
