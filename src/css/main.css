@@ -266,16 +266,13 @@ textarea {
   * user define
   */
 
-.container-artiste{
+.container-element{
   max-width: 20vw;
 
 }
-.list-artiste{
-  height:15vw;
-  overflow-y: scroll;
-}
 
-.list-instruments{
+
+.list-element{
   height:15vw;
   overflow-y: scroll;
 }
