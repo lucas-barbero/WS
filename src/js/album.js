@@ -214,13 +214,18 @@ function setPreviousWork(album) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    var previousWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].previousWorkLink.value);
-    var previousWorkName = data.results.bindings[0].previousWorkName.value;
-    console.log(previousWorkName);
-    console.log(previousWorkLink);
-    document.getElementById("previousWork").innerHTML = previousWorkName;
-    document.getElementById("previousWork").setAttribute("href", previousWorkLink);
+    if(data.results.bindings.length==0){
+      document.getElementById("previous-container").remove();
+    }else {
+      var previousWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].previousWorkLink.value);
+      var previousWorkName = data.results.bindings[0].previousWorkName.value;
+      console.log(previousWorkName);
+      console.log(previousWorkLink);
+      document.getElementById("previousWork").innerHTML = previousWorkName;
+      document.getElementById("previousWork").setAttribute("href", previousWorkLink);
+    }
   });
+
 }
 
 function setSubsequentWork(album) {
@@ -236,10 +241,14 @@ function setSubsequentWork(album) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    var subWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].subWorkLink.value);
-    var subWorkName = data.results.bindings[0].subWorkName.value;
-    document.getElementById("subsequentWork").innerHTML = subWorkName;
-    document.getElementById("subsequentWork").setAttribute("href", subWorkLink);
+    if(data.results.bindings.length==0){
+      document.getElementById("subsequent-container").remove();
+    }else {
+      var subWorkLink = "album.html?search=" + getRessourceLink(data.results.bindings[0].subWorkLink.value);
+      var subWorkName = data.results.bindings[0].subWorkName.value;
+      document.getElementById("subsequentWork").innerHTML = subWorkName;
+      document.getElementById("subsequentWork").setAttribute("href", subWorkLink);
+    }
   });
 }
 
