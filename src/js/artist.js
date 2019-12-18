@@ -181,9 +181,14 @@ function setAssociateArtist(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    for (var i = 0; i < data.results.bindings.length; i++) {
-      var str = "<li> <a href=\artist.html?search=" + getRessourceLink(data.results.bindings[i].query.value) + " class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
-      document.getElementById("artistes").innerHTML += str;
+
+    if(data.results.bindings.length==0){
+      document.getElementById("container-artistes").remove();
+    }else {
+      for (var i = 0; i < data.results.bindings.length; i++) {
+        var str = "<li> <a href=\artist.html?search=" + getRessourceLink(data.results.bindings[i].query.value) + " class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+        document.getElementById("artistes").innerHTML += str;
+      }
     }
   });
 
@@ -204,9 +209,13 @@ function setAlbum(artist) {
   ].join(" ");
 
   sparqlQuery(query).then(function (data) {
-    for (var i = 0; i < data.results.bindings.length; i++) {
-      var str = "<li> <a href=\album.html?search=" + getRessourceLink(data.results.bindings[i].album.value) + " class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
-      document.getElementById("albums").innerHTML += str;
+    if(data.results.bindings.length==0){
+      document.getElementById("container-albums").remove();
+    }else {
+      for (var i = 0; i < data.results.bindings.length; i++) {
+        var str = "<li> <a href=\album.html?search=" + getRessourceLink(data.results.bindings[i].album.value) + " class=\"list-group-item list-group-item-action\"> " + data.results.bindings[i].name.value + " </a></li>";
+        document.getElementById("albums").innerHTML += str;
+      }
     }
   });
 }
